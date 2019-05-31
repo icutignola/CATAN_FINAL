@@ -582,7 +582,7 @@ int main(void)
 					if (inputInfo.identifier == ROAD)
 					{
 						errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
-						errRules = catan.getRules().canBuildRoad(starter, other, coordinates);
+						errRules = catan.getRules().canBuildRoad(other, starter, coordinates);
 
 						if ((errInput == false) && (errRules == true))//creo que es asi
 						{
@@ -844,8 +844,8 @@ int main(void)
 					coordinates.setY(mensaje.y);
 					coordinates.setZ(mensaje.z);
 
-					errInput = catan.canBuildTown(catan.getPlayer1(), catan.getPlayer2(), coordinates, true); //hace diferencia?
-					errRules = catan.getRules().firstCanBuildRoad(other, coordinates);
+					errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
+					errRules = catan.getRules().canBuildRoad(other, starter, coordinates);
 
 					if ((errInput == false) && (errRules == true))//creo que es asi
 					{
@@ -878,6 +878,7 @@ int main(void)
 				}
 				messageExist = false;
 				mensaje = COMU_s.getMessage(); //Obtengo el mensaje
+				COMU_s.sendAck();
 			}
 			else if (myStatus == IM_CLIENT)
 			{
@@ -887,11 +888,12 @@ int main(void)
 				}
 				messageExist = false;
 				mensaje = COMU_c.getMessage(); //Obtengo el mensaje
+				COMU_c.sendAck();
 			}
-			if (mensaje.identifier == PASS)	// Si el contenido del mensje es el ACK del otro jugador...
+			if (mensaje.identifier == PASS)
 			{
-				ackRecived = true;
-				turn = YOUR_TURN_M;
+
+				turn = MY_TURN_M;
 				firstTurnsCompleted++;
 			}
 

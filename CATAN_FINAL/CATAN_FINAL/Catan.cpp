@@ -418,7 +418,7 @@ bool Catan::canBuildRoad(Player * player, Player * other, Coordinates coordinate
         setError(rules.firstCanBuildRoad(player, coordinates));
     else
         setError(rules.canBuildRoad(player, other, coordinates));
-    return catanError == NO_ERROR_t;
+    return catanError != NO_ERROR_t;
 }
 
 void Catan::setGame(Player * P1, Player * P2, char types[ISLANDS_AMMOUNT], char numbers[ISLANDS_AMMOUNT - 1], char dock[DOCKS_AMMOUNT])

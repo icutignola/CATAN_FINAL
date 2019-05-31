@@ -246,7 +246,7 @@ error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
         }
         else
         if (coordinates == *(player->getBuildings()[i].getTokenCoordinates())) {
-            return NO_ERROR;
+            return NO_ERROR_t;
         }
     }
     return ERROR_INVALID_COORDINATES;
