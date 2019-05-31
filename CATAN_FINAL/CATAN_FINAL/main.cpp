@@ -34,7 +34,6 @@ int main(void)
 
 	// Juego basico
 	Catan catan(NULL, NULL);
-	bool errRules = false;
 	bool allowToBuild = false;
 	unsigned char firstTurnsCompleted = 0;
 	Coordinates coordinates;
@@ -230,7 +229,7 @@ int main(void)
 	}
 
 	// Si SOY SERVER y los nombres estan cargados, creo un mapa
-	if (myNameLoad == true && otherNameLoad == true && myStatus == IM_SERVER && ackRecived == true)
+	if (myNameLoad && otherNameLoad && myStatus == IM_SERVER && ackRecived)
 	{
 		ackRecived = false;
 	
@@ -272,7 +271,7 @@ int main(void)
 	}
 
 	// Si SOY CLIENTE y los nombres estan cargados, pido el mapa
-	else if (myNameLoad == true && otherNameLoad == true && myStatus == IM_CLIENT && ackSended == true)
+	else if (myNameLoad && otherNameLoad && myStatus == IM_CLIENT && ackSended)
 	{
 		char types[ISLANDS_AMMOUNT];
 		char tokens[ISLANDS_AMMOUNT - 1];
@@ -434,10 +433,9 @@ int main(void)
 
 					if (inputInfo.identifier == SETTLEMENT)
 					{
-						errInput = catan.canBuildTown(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
-						errRules = catan.getRules().canBuildTown(starter, other, coordinates, true);
+						errInput = !catan.canBuildTown(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
 
-						if ((errInput == false) && (errRules == true))//creo que es asi
+						if (!errInput)//creo que es asi
 						{
 							allowToBuild = true;
 						}
@@ -446,7 +444,7 @@ int main(void)
 
 				}
 
-			} while (allowToBuild == false);
+			} while (!allowToBuild);
 			catan.buildTown(coordinates, starter);
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
 			coordMessage.x = coordinates.getX();
@@ -563,7 +561,6 @@ int main(void)
 
 			//**************** CONTRUYO UN ROAD (LOCAL) ****************
 			errInput = false;
-			errRules = false;
 			allowToBuild = false;
 			do
 			{
@@ -581,10 +578,9 @@ int main(void)
 
 					if (inputInfo.identifier == ROAD)
 					{
-						errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
-						errRules = catan.getRules().canBuildRoad(other, starter, coordinates);
+						errInput = !catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
 
-						if ((errInput == false) && (errRules == true))//creo que es asi
+						if (!errInput)//creo que es asi
 						{
 							allowToBuild = true;
 						}
@@ -593,7 +589,7 @@ int main(void)
 
 				}
 
-			} while (allowToBuild == false);
+			} while (!allowToBuild);
 			catan.buildRoad(coordinates, starter);
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 			coordMessage.x = coordinates.getX();
@@ -689,7 +685,6 @@ int main(void)
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 			//**************** RECIBO UN SETTLEMENT ****************
 			errInput = false;
-			errRules = false;
 			allowToBuild = false;
 			do
 			{
@@ -718,16 +713,15 @@ int main(void)
 					coordinates.setY(mensaje.y);
 					coordinates.setZ(mensaje.z);
 
-					errInput = catan.canBuildTown(catan.getPlayer1(), catan.getPlayer2(), coordinates, true); //hace diferencia?
-					errRules = catan.getRules().canBuildTown(other, starter, coordinates, true);
+					errInput = !catan.canBuildTown(catan.getPlayer2(), catan.getPlayer1(), coordinates, true); //hace diferencia?
 
-					if ((errInput == false) && (errRules == true))//creo que es asi
+					if (!errInput) //creo que es asi
 					{
 						allowToBuild = true;
 					}
 				}
 
-			} while (allowToBuild == false);
+			} while (!allowToBuild);
 			catan.buildTown(coordinates, other);
 
 			//**************** DISTRIBUCION ****************V
@@ -815,7 +809,6 @@ int main(void)
 
 			//**************** RECIBO UN ROAD ****************
 			errInput = false;
-			errRules = false;
 			allowToBuild = false;
 			do
 			{
@@ -844,16 +837,15 @@ int main(void)
 					coordinates.setY(mensaje.y);
 					coordinates.setZ(mensaje.z);
 
-					errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
-					errRules = catan.getRules().canBuildRoad(other, starter, coordinates);
+					errInput = !catan.canBuildRoad(catan.getPlayer2(), catan.getPlayer1(), coordinates, true);
 
-					if ((errInput == false) && (errRules == true))//creo que es asi
+					if (!errInput)//creo que es asi
 					{
 						allowToBuild = true;
 					}
 				}
 
-			} while (allowToBuild == false);
+			} while (!allowToBuild);
 			catan.buildRoad(coordinates, other);
 
 			//**************** ENVIO ACK ****************

@@ -115,11 +115,11 @@ error Rules::canBuildTown(Player * player, Player * other, Coordinates coordinat
 }
 
 error Rules::canBuildRoad(Player * player, Player * other, Coordinates coordinates) {
-	if (!((player->getClay() >= 1) && (player->getWood() >= 1))) {// si tiene los recursos
+	if (!((player->getClay() >= 1) && (player->getWood() >= 1))) {// si no tiene los recursos
 		return ERROR_NO_RESOURCES;
 	}
 
-	if (player->getRoadsBuilt() >= MAX_ROAD_AMMOUNT)//si tiene roads disponibles
+	if (player->getRoadsBuilt() >= MAX_ROAD_AMMOUNT)//si no tiene roads disponibles
 		return ERROR_NO_ROADS_AVAILABLE;
 
 
