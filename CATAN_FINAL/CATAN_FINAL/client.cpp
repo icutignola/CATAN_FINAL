@@ -347,7 +347,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.clay != 0)
 	{
-		for (i; i <= myRes.clay; i++)
+		for (; i <= myRes.clay; i++)
 		{
 			outputMessage[3 + i] = CLAY;
 		}
@@ -356,7 +356,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.sheep != 0)
 	{
-		for (i; i <= myRes.sheep; i++)
+		for (; i <= myRes.sheep; i++)
 		{
 			outputMessage[3 + i] = SHEEP;
 		}
@@ -365,7 +365,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.stone != 0)
 	{
-		for (i; i <= myRes.stone; i++)
+		for (; i <= myRes.stone; i++)
 		{
 			outputMessage[3 + i] = STONE;
 		}
@@ -374,7 +374,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.wheat != 0)
 	{
-		for (i; i <= myRes.wheat; i++)
+		for (; i <= myRes.wheat; i++)
 		{
 			outputMessage[3 + i] = WHEAT;
 		}
@@ -383,7 +383,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.wood != 0)
 	{
-		for (i; i <= myRes.wood; i++)
+		for (; i <= myRes.wood; i++)
 		{
 			outputMessage[3 + i] = WOOD;
 		}
@@ -393,7 +393,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.clay != 0)
 	{
-		for (i; i <= yourRes.clay; i++)
+		for (; i <= yourRes.clay; i++)
 		{
 			outputMessage[3 + i] = CLAY;
 		}
@@ -402,7 +402,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.sheep != 0)
 	{
-		for (i; i <= yourRes.sheep; i++)
+		for (; i <= yourRes.sheep; i++)
 		{
 			outputMessage[3 + i] = SHEEP;
 		}
@@ -411,7 +411,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.stone != 0)
 	{
-		for (i; i <= yourRes.stone; i++)
+		for (; i <= yourRes.stone; i++)
 		{
 			outputMessage[3 + i] = STONE;
 		}
@@ -420,7 +420,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.wheat != 0)
 	{
-		for (i; i <= yourRes.wheat; i++)
+		for (; i <= yourRes.wheat; i++)
 		{
 			outputMessage[3 + i] = WHEAT;
 		}
@@ -429,7 +429,7 @@ void client::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.wood != 0)
 	{
-		for (i; i <= yourRes.wood; i++)
+		for (; i <= yourRes.wood; i++)
 		{
 			outputMessage[3 + i] = WOOD;
 		}
@@ -603,7 +603,7 @@ message client::getMessage(void)
 
 			int i = 0;
 
-			for (i; i < answer.contentLong; i++)
+			for (; i < answer.contentLong; i++)
 			{
 				answer.content[i] = inputMessage[i + 2];
 			}
@@ -620,12 +620,12 @@ message client::getMessage(void)
 
 			int i = 0;
 
-			for (i; i < answer.contentLong; i++)
+			for (; i < answer.contentLong; i++)
 			{
 				answer.content[i] = inputMessage[i + 2];
 			}
 
-			for (i; i < (answer.contentLongBIS + i); i++)
+			for (; i < (answer.contentLongBIS + i); i++)
 			{
 				answer.contentBIS[i] = inputMessage[i + 2];
 			}

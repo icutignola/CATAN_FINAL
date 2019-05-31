@@ -1,12 +1,12 @@
 #include "Coordinates.h"
 
 Coordinates::Coordinates() {
-    x = NO_VALUE;
-    y = NO_VALUE;
-    z = NO_VALUE;
+    x = EMPTY;
+    y = EMPTY;
+    z = EMPTY;
 }
 
-Coordinates::Coordinates(int x, int y, int z) {
+Coordinates::Coordinates(char x, char y, char z) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -18,27 +18,27 @@ Coordinates::Coordinates(const Coordinates &coordinates) {
     this->z = coordinates.z;
 }
 
-int Coordinates::getX() {
+char Coordinates::getX() {
     return x;
 }
 
-int Coordinates::getY() {
+char Coordinates::getY() {
     return y;
 }
 
-int Coordinates::getZ() {
+char Coordinates::getZ() {
     return z;
 }
 
-void Coordinates:: setX(int x) {
+void Coordinates:: setX(char x) {
     this->x = x;
 }
 
-void Coordinates:: setY(int y) {
+void Coordinates:: setY(char y) {
     this->y = y;
 }
 
-void Coordinates:: setZ(int z) {
+void Coordinates:: setZ(char z) {
     this->z = z;
 }
 

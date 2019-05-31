@@ -1,6 +1,6 @@
 #pragma once
 #include "AbstractToken.h"
-#include "Defines.h"
+#include "defines.h"
 
 class Robber :
         public AbstractToken

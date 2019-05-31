@@ -406,26 +406,21 @@ void Catan::setLongestRoadPlayer(Player * player) {
 
 bool Catan::canBuildTown(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn) {
 	setError(rules.canBuildTown(player, other, coordinates, isFirstTurn));
-	if (catanError == NO_ERROR_t)
-		return false;
-	else
-		return true;
+    return !(catanError == NO_ERROR_t);
 }
 bool Catan::canBuildCity(Player *player, Coordinates coordinates) {
 	setError(rules.canBuildCity(player, coordinates));
-	if (catanError == NO_ERROR_t)
-		return false;
-	else
-		return true;
+    return !(catanError == NO_ERROR_t);
 
 }
-bool Catan::canBuildRoad(Player * player, Player * other, Coordinates coordinates) {
-	setError(rules.canBuildRoad(player, other, coordinates));
-	if (catanError == NO_ERROR_t)
-		return false;
-	else
-		return true;
+bool Catan::canBuildRoad(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn){
+    if(isFirstTurn)
+        setError(rules.firstCanBuildRoad(player, coordinates));
+    else
+        setError(rules.canBuildRoad(player, other, coordinates));
+    return catanError == NO_ERROR_t;
 }
+
 void Catan::setGame(Player * P1, Player * P2, char types[ISLANDS_AMMOUNT], char numbers[ISLANDS_AMMOUNT - 1], char dock[DOCKS_AMMOUNT])
 {
 	this->player1 = P1;

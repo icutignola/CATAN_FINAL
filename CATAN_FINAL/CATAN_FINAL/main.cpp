@@ -135,7 +135,7 @@ int main(void)
 		// Le respondo que recibi su mensaje (ACK)
 		if (mensaje.identifier == NAME_IS)	// Si el contenido del mensje es el nombre del otro jugador...
 		{
-			//player_name2 = mensaje.content;	// Obtengo el nobre del otro jugador\	
+			//player_name2 = mensaje.content;	// Obtengo el nobre del otro jugador
 			for (int i = 0; i < mensaje.contentLong; i++)
 			{
 				player_name2[i] = mensaje.content[i];
@@ -215,7 +215,7 @@ int main(void)
 		// Le respondo que recibi su nombre (ACK)
 		if (mensaje.identifier == NAME_IS)	// Si el contenido del mensje es el nombre del otro jugador...
 		{
-			//player_name2 = mensaje.content;	// Obtengo el nobre del otro jugador\	
+			//player_name2 = mensaje.content;	// Obtengo el nobre del otro jugador
 			for (int i = 0; i < mensaje.contentLong; i++)
 			{
 				player_name2[i] = mensaje.content[i];
@@ -295,7 +295,7 @@ int main(void)
 			{
 				docks[i] = mensaje.content[i];
 			}
-			for (i, j ; i < (ISLANDS_AMMOUNT + DOCKS_AMMOUNT); i++, j++)
+			for (; i < (ISLANDS_AMMOUNT + DOCKS_AMMOUNT); i++, j++)
 			{
 				types[j] = mensaje.content[i];
 			}
@@ -581,7 +581,7 @@ int main(void)
 
 					if (inputInfo.identifier == ROAD)
 					{
-						errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates);
+						errInput = catan.canBuildRoad(catan.getPlayer1(), catan.getPlayer2(), coordinates, true);
 						errRules = catan.getRules().canBuildRoad(starter, other, coordinates);
 
 						if ((errInput == false) && (errRules == true))//creo que es asi

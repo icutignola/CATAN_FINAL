@@ -4,7 +4,7 @@
 #include <iostream>
 #include <time.h>
 
-#include "Defines.h"
+#include "defines.h"
 
 class Map
 {
