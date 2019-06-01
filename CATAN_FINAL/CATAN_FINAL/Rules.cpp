@@ -59,17 +59,28 @@ error Rules::canBuildTown(Player * player, Player * other, Coordinates coordinat
 			if (x == coordinates.getY() || x == coordinates.getZ() || y == coordinates.getY() || y == coordinates.getZ())
 				return ERROR_INVALID_COORDINATES;
 		}
-		else if (y == coordinates.getY()) {
-			if (z == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
+		else if(x == coordinates.getY()){
+            if (y == coordinates.getX() || z == coordinates.getX() || y == coordinates.getZ() || z == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
 		}
 		else if (y == coordinates.getY()) {
-			if (z == coordinates.getZ())
+			if (x == coordinates.getX() || x == coordinates.getZ() || z == coordinates.getX() || z == coordinates.getZ())
 				return ERROR_INVALID_COORDINATES;
 		}
-		else if (y == coordinates.getZ()) {
-			if (z == coordinates.getY())
+		else if (z == coordinates.getY()) {
+			if (x == coordinates.getX() || x == coordinates.getZ() || y == coordinates.getX() || y == coordinates.getZ())
 				return ERROR_INVALID_COORDINATES;
+		}
+		else if (x == coordinates.getZ()) {
+			if (y == coordinates.getX() || y == coordinates.getY() || z == coordinates.getX() || z == coordinates.getY())
+				return ERROR_INVALID_COORDINATES;
+		}
+		else if (y == coordinates.getZ()){
+            if (x == coordinates.getX() || x == coordinates.getY() || z == coordinates.getX() || z == coordinates.getY())
+                return ERROR_INVALID_COORDINATES;
+		} else if (z == coordinates.getZ()){
+            if (x == coordinates.getX() || x == coordinates.getY() || y == coordinates.getX() || y == coordinates.getY())
+                return ERROR_INVALID_COORDINATES;
 		}
 	}
 
@@ -80,30 +91,41 @@ error Rules::canBuildTown(Player * player, Player * other, Coordinates coordinat
 		char x = other->getBuildings()[i].getTokenCoordinates()->getX();
 		char y = other->getBuildings()[i].getTokenCoordinates()->getY();
 		char z = other->getBuildings()[i].getTokenCoordinates()->getZ();
-		if (x == coordinates.getX()) {
-			if (y == coordinates.getY() || y == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
-		}
-		else if (y == coordinates.getX()) {
-			if (x == coordinates.getY() || x == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
-		}
-		else if (z == coordinates.getX()) {
-			if (x == coordinates.getY() || x == coordinates.getZ() || y == coordinates.getY() || y == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
-		}
-		else if (y == coordinates.getY()) {
-			if (z == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
-		}
-		else if (y == coordinates.getY()) {
-			if (z == coordinates.getZ())
-				return ERROR_INVALID_COORDINATES;
-		}
-		else if (y == coordinates.getZ()) {
-			if (z == coordinates.getY())
-				return ERROR_INVALID_COORDINATES;
-		}
+        if (x == coordinates.getX()) {
+            if (y == coordinates.getY() || y == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (y == coordinates.getX()) {
+            if (x == coordinates.getY() || x == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (z == coordinates.getX()) {
+            if (x == coordinates.getY() || x == coordinates.getZ() || y == coordinates.getY() || y == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if(x == coordinates.getY()){
+            if (y == coordinates.getX() || z == coordinates.getX() || y == coordinates.getZ() || z == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (y == coordinates.getY()) {
+            if (x == coordinates.getX() || x == coordinates.getZ() || z == coordinates.getX() || z == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (z == coordinates.getY()) {
+            if (x == coordinates.getX() || x == coordinates.getZ() || y == coordinates.getX() || y == coordinates.getZ())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (x == coordinates.getZ()) {
+            if (y == coordinates.getX() || y == coordinates.getY() || z == coordinates.getX() || z == coordinates.getY())
+                return ERROR_INVALID_COORDINATES;
+        }
+        else if (y == coordinates.getZ()){
+            if (x == coordinates.getX() || x == coordinates.getY() || z == coordinates.getX() || z == coordinates.getY())
+                return ERROR_INVALID_COORDINATES;
+        } else if (z == coordinates.getZ()){
+            if (x == coordinates.getX() || x == coordinates.getY() || y == coordinates.getX() || y == coordinates.getY())
+                return ERROR_INVALID_COORDINATES;
+        }
 	}
 	if (!isFirstTurn) {
 		player->setWood(player->getWood() - 1); // Para cobrarle porque construyo

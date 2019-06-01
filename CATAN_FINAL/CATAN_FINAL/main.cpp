@@ -560,7 +560,6 @@ int main(int argc, char** argv)
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
 
 			//**************** CONTRUYO UN ROAD (LOCAL) ****************
-			errInput = false;
 			allowToBuild = false;
 			do
 			{
