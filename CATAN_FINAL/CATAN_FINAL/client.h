@@ -21,6 +21,9 @@
 #include "auxiliar.h"
 #include "errorC.h"
 
+#define WSAEWOULDBLOCK EWOULDBLOCK
+#define ERROR ERROR_T
+
 using namespace std;
 
 class client

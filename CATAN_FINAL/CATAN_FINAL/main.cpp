@@ -14,7 +14,7 @@
 //#include "simpleEventGenerator.h"
 //#include "FSMImplementation.h"
 
-int main(void)
+int main(int argc, char** argv)
 {
 	// Variable de FSM
 	//FSMImplementation fsm;
@@ -415,7 +415,7 @@ int main(void)
 		if (turn == MY_TURN_M)
 		{
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
-			//**************** CONTRUYO UN SETTLEMENT (LOCAL) ****************
+			//**************** CONSTRUYO UN SETTLEMENT (LOCAL) ****************
 			do
 			{
 				while (GUI.isInput() != EV_EXIST);
@@ -445,7 +445,7 @@ int main(void)
 				}
 
 			} while (!allowToBuild);
-			catan.buildTown(coordinates, starter);
+			catan.buildTown(coordinates, catan.getPlayer1());
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
 			coordMessage.x = coordinates.getX();
 			coordMessage.y = coordinates.getY();
@@ -455,19 +455,19 @@ int main(void)
 			if (isalpha(coordinates.getX())) {
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getX()) - 'A'].getType()) {
 				case BOSQUE:
-					starter->setWood(starter->getWood() + 1);
+					catan.getPlayer1()->setWood(catan.getPlayer1()->getWood() + 1);
 					break;
 				case COLINA:
-					starter->setClay(starter->getClay() + 1);
+					catan.getPlayer1()->setClay(catan.getPlayer1()->getClay() + 1);
 					break;
 				case MONTANIA:
-					starter->setStone(starter->getStone() + 1);
+					catan.getPlayer1()->setStone(catan.getPlayer1()->getStone() + 1);
 					break;
 				case CAMPO:
-					starter->setWheat(starter->getWheat() + 1);
+					catan.getPlayer1()->setWheat(catan.getPlayer1()->getWheat() + 1);
 					break;
 				case PASTO:
-					starter->setSheep(starter->getSheep() + 1);
+					catan.getPlayer1()->setSheep(catan.getPlayer1()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -477,19 +477,19 @@ int main(void)
 			if (isalpha(coordinates.getY())) {
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getY()) - 'A'].getType()) {
 				case BOSQUE:
-					starter->setWood(starter->getWood() + 1);
+					catan.getPlayer1()->setWood(catan.getPlayer1()->getWood() + 1);
 					break;
 				case COLINA:
-					starter->setClay(starter->getClay() + 1);
+					catan.getPlayer1()->setClay(catan.getPlayer1()->getClay() + 1);
 					break;
 				case MONTANIA:
-					starter->setStone(starter->getStone() + 1);
+					catan.getPlayer1()->setStone(catan.getPlayer1()->getStone() + 1);
 					break;
 				case CAMPO:
-					starter->setWheat(starter->getWheat() + 1);
+					catan.getPlayer1()->setWheat(catan.getPlayer1()->getWheat() + 1);
 					break;
 				case PASTO:
-					starter->setSheep(starter->getSheep() + 1);
+					catan.getPlayer1()->setSheep(catan.getPlayer1()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -499,19 +499,19 @@ int main(void)
 			if (isalpha(coordinates.getZ())) {
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getZ()) - 'A'].getType()) {
 				case BOSQUE:
-					starter->setWood(starter->getWood() + 1);
+					catan.getPlayer1()->setWood(catan.getPlayer1()->getWood() + 1);
 					break;
 				case COLINA:
-					starter->setClay(starter->getClay() + 1);
+					catan.getPlayer1()->setClay(catan.getPlayer1()->getClay() + 1);
 					break;
 				case MONTANIA:
-					starter->setStone(starter->getStone() + 1);
+					catan.getPlayer1()->setStone(catan.getPlayer1()->getStone() + 1);
 					break;
 				case CAMPO:
-					starter->setWheat(starter->getWheat() + 1);
+					catan.getPlayer1()->setWheat(catan.getPlayer1()->getWheat() + 1);
 					break;
 				case PASTO:
-					starter->setSheep(starter->getSheep() + 1);
+					catan.getPlayer1()->setSheep(catan.getPlayer1()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -590,7 +590,7 @@ int main(void)
 				}
 
 			} while (!allowToBuild);
-			catan.buildRoad(coordinates, starter);
+			catan.buildRoad(coordinates, catan.getPlayer1());
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 			coordMessage.x = coordinates.getX();
 			coordMessage.y = coordinates.getY();
@@ -722,26 +722,26 @@ int main(void)
 				}
 
 			} while (!allowToBuild);
-			catan.buildTown(coordinates, other);
+			catan.buildTown(coordinates, catan.getPlayer2());
 
 			//**************** DISTRIBUCION ****************V
 			if (isalpha(coordinates.getX()))
 			{
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getX()) - 'A'].getType()) {
 				case BOSQUE:
-					other->setWood(other->getWood() + 1);
+					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
 					break;
 				case COLINA:
-					other->setClay(other->getClay() + 1);
+					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
 					break;
 				case MONTANIA:
-					other->setStone(other->getStone() + 1);
+					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
 					break;
 				case CAMPO:
-					other->setWheat(other->getWheat() + 1);
+					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
 					break;
 				case PASTO:
-					other->setSheep(other->getSheep() + 1);
+					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -752,19 +752,19 @@ int main(void)
 			{
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getY()) - 'A'].getType()) {
 				case BOSQUE:
-					other->setWood(other->getWood() + 1);
+					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
 					break;
 				case COLINA:
-					other->setClay(other->getClay() + 1);
+					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
 					break;
 				case MONTANIA:
-					other->setStone(other->getStone() + 1);
+					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
 					break;
 				case CAMPO:
-					other->setWheat(other->getWheat() + 1);
+					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
 					break;
 				case PASTO:
-					other->setSheep(other->getSheep() + 1);
+					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -775,19 +775,19 @@ int main(void)
 			{
 				switch (catan.getMap()->getIslands()[toupper(coordinates.getZ()) - 'A'].getType()) {
 				case BOSQUE:
-					other->setWood(other->getWood() + 1);
+					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
 					break;
 				case COLINA:
-					other->setClay(other->getClay() + 1);
+					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
 					break;
 				case MONTANIA:
-					other->setStone(other->getStone() + 1);
+					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
 					break;
 				case CAMPO:
-					other->setWheat(other->getWheat() + 1);
+					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
 					break;
 				case PASTO:
-					other->setSheep(other->getSheep() + 1);
+					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
 					break;
 				case DESIERTO:
 					//Nada
@@ -846,7 +846,7 @@ int main(void)
 				}
 
 			} while (!allowToBuild);
-			catan.buildRoad(coordinates, other);
+			catan.buildRoad(coordinates, catan.getPlayer2());
 
 			//**************** ENVIO ACK ****************
 			if (myStatus == IM_SERVER)

@@ -967,9 +967,9 @@ genIn io::getBuildingInput(void)
 {
 	genIn answer;
 	answer.identifier = NO_VALUE;
-	answer.x = NO_VALUE;
-	answer.y = NO_VALUE;
-	answer.z = NO_VALUE;
+	answer.x = EMPTY;
+	answer.y = EMPTY;
+	answer.z = EMPTY;
 
 	bool cityF = false;
 	bool casaF = false;
@@ -1080,9 +1080,9 @@ genIn io::getBuildingInput(void)
 					else if ((firstC == BUTTON_A) && (secondC == NO_A))
 					{
 						answer.identifier = NO_VALUE;
-						answer.x = NO_VALUE;
-						answer.y = NO_VALUE;
-						answer.z = NO_VALUE;
+						answer.x = EMPTY;
+						answer.y = EMPTY;
+						answer.z = EMPTY;
 						selectFlag = true;
 					}
 
