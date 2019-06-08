@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 	// Cargo mi nombre (local)
 	nameInfo nameP1;			
 	nameP1 = GUI.getMyName();		// Interfaz para ingresar el nombre
-	nameP1.name[nameP1.longName] = NULL;
+	nameP1.name[nameP1.longName] = '\0';
 	Player player1(nameP1.name);	// Creo mi jugador (local)
 	
 	myNameLoad = true;
@@ -340,9 +340,7 @@ int main(int argc, char** argv)
 		if (dice2 > dice1)
 		{
 
-			Player* aux = starter;
-			starter = other;
-			other = aux;
+
 
 			COMU_s.sendYoutStart();
 
@@ -410,8 +408,9 @@ int main(int argc, char** argv)
 	
 	//************************ Primeros dos turnos (uno cada uno) *************************
 
-	while (firstTurnsCompleted != 2)
+	while (firstTurnsCompleted != 4)
 	{
+	    allowToBuild=false;
 		if (turn == MY_TURN_M)
 		{
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
@@ -679,219 +678,199 @@ int main(int argc, char** argv)
 			//**************** IMPRIMO ****************
 			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 		}
-		if (turn == YOUR_TURN_M)
-		{
-			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
-			//**************** RECIBO UN SETTLEMENT ****************
-			errInput = false;
-			allowToBuild = false;
-			do
-			{
-				if (myStatus == IM_SERVER)
-				{
-					while (!messageExist)
-					{
-						messageExist = COMU_s.isMessage();
-					}
-					messageExist = false;
-					mensaje = COMU_s.getMessage(); //Obtengo el mensaje
-				}
-				else if (myStatus == IM_CLIENT)
-				{
-					while (!messageExist)
-					{
-						messageExist = COMU_c.isMessage();
-					}
-					messageExist = false;
-					mensaje = COMU_c.getMessage(); //Obtengo el mensaje
-				}
+		else if (turn == YOUR_TURN_M) {
+            GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
+            //**************** RECIBO UN SETTLEMENT ****************
+            errInput = false;
+            allowToBuild = false;
+            do {
+                if (myStatus == IM_SERVER) {
+                    while (!messageExist) {
+                        messageExist = COMU_s.isMessage();
+                    }
+                    messageExist = false;
+                    mensaje = COMU_s.getMessage(); //Obtengo el mensaje
+                } else if (myStatus == IM_CLIENT) {
+                    while (!messageExist) {
+                        messageExist = COMU_c.isMessage();
+                    }
+                    messageExist = false;
+                    mensaje = COMU_c.getMessage(); //Obtengo el mensaje
+                }
 
-				if (mensaje.identifier == SETTLEMENT)	// Si el contenido del mensje es el ACK del otro jugador...
-				{
-					coordinates.setX(mensaje.x);
-					coordinates.setY(mensaje.y);
-					coordinates.setZ(mensaje.z);
+                if (mensaje.identifier == SETTLEMENT)    // Si el contenido del mensje es el ACK del otro jugador...
+                {
+                    coordinates.setX(mensaje.x);
+                    coordinates.setY(mensaje.y);
+                    coordinates.setZ(mensaje.z);
 
-					errInput = !catan.canBuildTown(catan.getPlayer2(), catan.getPlayer1(), coordinates, true); //hace diferencia?
+                    errInput = !catan.canBuildTown(catan.getPlayer2(), catan.getPlayer1(), coordinates,
+                                                   true); //hace diferencia?
 
-					if (!errInput) //creo que es asi
-					{
-						allowToBuild = true;
-					}
-				}
+                    if (!errInput) //creo que es asi
+                    {
+                        allowToBuild = true;
+                    }
+                }
 
-			} while (!allowToBuild);
-			catan.buildTown(coordinates, catan.getPlayer2());
+            } while (!allowToBuild);
+            catan.buildTown(coordinates, catan.getPlayer2());
 
-			//**************** DISTRIBUCION ****************V
-			if (isalpha(coordinates.getX()))
-			{
-				switch (catan.getMap()->getIslands()[toupper(coordinates.getX()) - 'A'].getType()) {
-				case BOSQUE:
-					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
-					break;
-				case COLINA:
-					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
-					break;
-				case MONTANIA:
-					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
-					break;
-				case CAMPO:
-					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
-					break;
-				case PASTO:
-					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
-					break;
-				case DESIERTO:
-					//Nada
-					break;
-				}
-			}
-			if (isalpha(coordinates.getY()))
-			{
-				switch (catan.getMap()->getIslands()[toupper(coordinates.getY()) - 'A'].getType()) {
-				case BOSQUE:
-					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
-					break;
-				case COLINA:
-					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
-					break;
-				case MONTANIA:
-					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
-					break;
-				case CAMPO:
-					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
-					break;
-				case PASTO:
-					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
-					break;
-				case DESIERTO:
-					//Nada
-					break;
-				}
-			}
-			if (isalpha(coordinates.getZ()))
-			{
-				switch (catan.getMap()->getIslands()[toupper(coordinates.getZ()) - 'A'].getType()) {
-				case BOSQUE:
-					catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
-					break;
-				case COLINA:
-					catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
-					break;
-				case MONTANIA:
-					catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
-					break;
-				case CAMPO:
-					catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
-					break;
-				case PASTO:
-					catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
-					break;
-				case DESIERTO:
-					//Nada
-					break;
-				}
-			}
+            //**************** DISTRIBUCION ****************V
+            if (isalpha(coordinates.getX())) {
+                switch (catan.getMap()->getIslands()[toupper(coordinates.getX()) - 'A'].getType()) {
+                    case BOSQUE:
+                        catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
+                        break;
+                    case COLINA:
+                        catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
+                        break;
+                    case MONTANIA:
+                        catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
+                        break;
+                    case CAMPO:
+                        catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
+                        break;
+                    case PASTO:
+                        catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
+                        break;
+                    case DESIERTO:
+                        //Nada
+                        break;
+                }
+            }
+            if (isalpha(coordinates.getY())) {
+                switch (catan.getMap()->getIslands()[toupper(coordinates.getY()) - 'A'].getType()) {
+                    case BOSQUE:
+                        catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
+                        break;
+                    case COLINA:
+                        catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
+                        break;
+                    case MONTANIA:
+                        catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
+                        break;
+                    case CAMPO:
+                        catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
+                        break;
+                    case PASTO:
+                        catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
+                        break;
+                    case DESIERTO:
+                        //Nada
+                        break;
+                }
+            }
+            if (isalpha(coordinates.getZ())) {
+                switch (catan.getMap()->getIslands()[toupper(coordinates.getZ()) - 'A'].getType()) {
+                    case BOSQUE:
+                        catan.getPlayer2()->setWood(catan.getPlayer2()->getWood() + 1);
+                        break;
+                    case COLINA:
+                        catan.getPlayer2()->setClay(catan.getPlayer2()->getClay() + 1);
+                        break;
+                    case MONTANIA:
+                        catan.getPlayer2()->setStone(catan.getPlayer2()->getStone() + 1);
+                        break;
+                    case CAMPO:
+                        catan.getPlayer2()->setWheat(catan.getPlayer2()->getWheat() + 1);
+                        break;
+                    case PASTO:
+                        catan.getPlayer2()->setSheep(catan.getPlayer2()->getSheep() + 1);
+                        break;
+                    case DESIERTO:
+                        //Nada
+                        break;
+                }
+            }
 
-			//**************** ENVIO ACK ****************
-			if (myStatus == IM_SERVER)
-			{
-				COMU_s.sendAck();
-			}
-			else if (myStatus == IM_CLIENT)
-			{
-				COMU_c.sendAck();
-			}
+            //**************** ENVIO ACK ****************
+            if (myStatus == IM_SERVER) {
+                COMU_s.sendAck();
+            } else if (myStatus == IM_CLIENT) {
+                COMU_c.sendAck();
+            }
 
-			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
+            GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 
-			//**************** RECIBO UN ROAD ****************
-			errInput = false;
-			allowToBuild = false;
-			do
-			{
-				if (myStatus == IM_SERVER)
-				{
-					while (!messageExist)
-					{
-						messageExist = COMU_s.isMessage();
-					}
-					messageExist = false;
-					mensaje = COMU_s.getMessage(); //Obtengo el mensaje
-				}
-				else if (myStatus == IM_CLIENT)
-				{
-					while (!messageExist)
-					{
-						messageExist = COMU_c.isMessage();
-					}
-					messageExist = false;
-					mensaje = COMU_c.getMessage(); //Obtengo el mensaje
-				}
+            //**************** RECIBO UN ROAD ****************
+            errInput = false;
+            allowToBuild = false;
+            do {
+                if (myStatus == IM_SERVER) {
+                    while (!messageExist) {
+                        messageExist = COMU_s.isMessage();
+                    }
+                    messageExist = false;
+                    mensaje = COMU_s.getMessage(); //Obtengo el mensaje
+                } else if (myStatus == IM_CLIENT) {
+                    while (!messageExist) {
+                        messageExist = COMU_c.isMessage();
+                    }
+                    messageExist = false;
+                    mensaje = COMU_c.getMessage(); //Obtengo el mensaje
+                }
 
-				if (mensaje.identifier == ROAD)	// Si el contenido del mensje es el ACK del otro jugador...
-				{
-					coordinates.setX(mensaje.x);
-					coordinates.setY(mensaje.y);
-					coordinates.setZ(mensaje.z);
+                if (mensaje.identifier == ROAD)    // Si el contenido del mensje es el ACK del otro jugador...
+                {
+                    coordinates.setX(mensaje.x);
+                    coordinates.setY(mensaje.y);
+                    coordinates.setZ(mensaje.z);
 
-					errInput = !catan.canBuildRoad(catan.getPlayer2(), catan.getPlayer1(), coordinates, true);
+                    errInput = !catan.canBuildRoad(catan.getPlayer2(), catan.getPlayer1(), coordinates, true);
 
-					if (!errInput)//creo que es asi
-					{
-						allowToBuild = true;
-					}
-				}
+                    if (!errInput)//creo que es asi
+                    {
+                        allowToBuild = true;
+                    }
+                }
 
-			} while (!allowToBuild);
-			catan.buildRoad(coordinates, catan.getPlayer2());
+            } while (!allowToBuild);
+            catan.buildRoad(coordinates, catan.getPlayer2());
 
-			//**************** ENVIO ACK ****************
-			if (myStatus == IM_SERVER)
-			{
-				COMU_s.sendAck();
-			}
-			else if (myStatus == IM_CLIENT)
-			{
-				COMU_c.sendAck();
-			}
+            //**************** ENVIO ACK ****************
+            if (myStatus == IM_SERVER) {
+                COMU_s.sendAck();
+            } else if (myStatus == IM_CLIENT) {
+                COMU_c.sendAck();
+            }
 
-			//**************** IMPRIMO ****************
-			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
+            //**************** IMPRIMO ****************
+            GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), false, GENERAL_MENU);
 
-			//**************** RECIBO EL PASS ****************
-			if (myStatus == IM_SERVER)
-			{
-				while (!messageExist)
-				{
-					messageExist = COMU_s.isMessage();
-				}
-				messageExist = false;
-				mensaje = COMU_s.getMessage(); //Obtengo el mensaje
-				COMU_s.sendAck();
-			}
-			else if (myStatus == IM_CLIENT)
-			{
-				while (!messageExist)
-				{
-					messageExist = COMU_c.isMessage();
-				}
-				messageExist = false;
-				mensaje = COMU_c.getMessage(); //Obtengo el mensaje
-				COMU_c.sendAck();
-			}
-			if (mensaje.identifier == PASS)
-			{
+            //**************** RECIBO EL PASS ****************
+            if (myStatus == IM_SERVER) {
+                while (!messageExist) {
+                    messageExist = COMU_s.isMessage();
+                }
+                messageExist = false;
+                mensaje = COMU_s.getMessage(); //Obtengo el mensaje
+                COMU_s.sendAck();
+            } else if (myStatus == IM_CLIENT) {
+                while (!messageExist) {
+                    messageExist = COMU_c.isMessage();
+                }
+                messageExist = false;
+                mensaje = COMU_c.getMessage(); //Obtengo el mensaje
+                COMU_c.sendAck();
+            }
+            if (mensaje.identifier == PASS) {
 
-				turn = MY_TURN_M;
-				firstTurnsCompleted++;
-			}
+                turn = MY_TURN_M;
+                firstTurnsCompleted++;
+            }
 
-			//**************** IMPRIMO ****************
-			GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
+            //**************** IMPRIMO ****************
+            GUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
 
-		}
+        }
+
+		if(firstTurnsCompleted == 2) {
+            if (turn == MY_TURN_M)
+                turn = YOUR_TURN_M;
+            else
+                turn = MY_TURN_M;
+        }
 	}
 
 	// Ya se completaron los primeros turnos de cada jugador
