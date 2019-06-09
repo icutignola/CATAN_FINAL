@@ -237,36 +237,41 @@ bool Rules::hasAdjacentRoad(Player * player, Coordinates coordinates) {
 
 
 error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
-    for (int i = 0; i < player->getTownsBuilt(); i++) {
-        if (coordinates.getZ() > 5) {
-            char x = player->getBuildings()[i].getTokenCoordinates()->getX();
-            char y = player->getBuildings()[i].getTokenCoordinates()->getY();
-            char z = player->getBuildings()[i].getTokenCoordinates()->getZ();
-            if (x == coordinates.getX()) {
-                if (y == coordinates.getY() || y == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
-                    return NO_ERROR_t;
-            }
-            else if (y == coordinates.getX()) {
-                if (x == coordinates.getY() || x == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
-                    return NO_ERROR_t;
-            }
-            else if (z == coordinates.getX()) {
-                if (x == coordinates.getY() || x == coordinates.getZ() || y == coordinates.getY() || y == coordinates.getZ())
-                    return NO_ERROR_t;
-            }
-            else if (y == coordinates.getY()) {
-                if (z == coordinates.getZ() || x == coordinates.getZ())
-                    return NO_ERROR_t;
-            }
-            else if (z == coordinates.getY()) {
-                if (y == coordinates.getZ() || x == coordinates.getZ())
-                    return NO_ERROR_t;
-            }
+    int i = player->getTownsBuilt() -1;
+    char x = player->getBuildings()[i].getTokenCoordinates()->getX();
+    char y = player->getBuildings()[i].getTokenCoordinates()->getY();
+    char z = player->getBuildings()[i].getTokenCoordinates()->getZ();
+    if (coordinates.getZ() > '5' || coordinates.getZ() < '0') {
+        if (x == coordinates.getX()) {
+            if (y == coordinates.getY() || y == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
+                return NO_ERROR_t;
         }
-        else
-        if (coordinates == *(player->getBuildings()[i].getTokenCoordinates())) {
+        else if (y == coordinates.getX()) {
+            if (x == coordinates.getY() || x == coordinates.getZ() || z == coordinates.getY() || z == coordinates.getZ())
+                return NO_ERROR_t;
+        }
+        else if (z == coordinates.getX()) {
+            if (x == coordinates.getY() || x == coordinates.getZ() || y == coordinates.getY() || y == coordinates.getZ())
+                return NO_ERROR_t;
+        }
+        else if (y == coordinates.getY()) {
+            if (z == coordinates.getZ() || x == coordinates.getZ())
+                return NO_ERROR_t;
+        }
+        else if (z == coordinates.getY()) {
+            if (y == coordinates.getZ() || x == coordinates.getZ())
+                return NO_ERROR_t;
+        }
+    }
+    else if(coordinates.getZ() == EMPTY){
+        if(coordinates.getX() == x && coordinates.getY() == y)
             return NO_ERROR_t;
-        }
+        else if(coordinates.getX() == y && coordinates.getY() == x)
+            return NO_ERROR_t;
+
+    }
+    else if (coordinates == *(player->getBuildings()[i].getTokenCoordinates())) {
+        return NO_ERROR_t;
     }
     return ERROR_INVALID_COORDINATES;
 }
