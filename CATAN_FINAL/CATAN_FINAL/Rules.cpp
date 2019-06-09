@@ -237,9 +237,6 @@ bool Rules::hasAdjacentRoad(Player * player, Coordinates coordinates) {
 
 
 error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
-    if (hasAdjacentRoad(player, coordinates))
-        return ERROR_INVALID_COORDINATES;
-
     for (int i = 0; i < player->getTownsBuilt(); i++) {
         if (coordinates.getZ() > 5) {
             char x = player->getBuildings()[i].getTokenCoordinates()->getX();
