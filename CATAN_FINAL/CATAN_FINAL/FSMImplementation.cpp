@@ -264,92 +264,73 @@ void FSMImplementation::bankTrade(genericEvent * ev)
 	
 }
 
+//HECHO (falta error)
 void FSMImplementation::checkBank(genericEvent * ev)
 {
 	cout << "el otro tradeo con el banco" << endl;
 	int woodG = 0, clayG = 0, sheepG = 0, wheatG = 0, stoneG = 0;
 	int woodR = 0, clayR = 0, sheepR = 0, wheatR = 0, stoneR = 0;
+	bool puedo;
+	char give;
+	char take;
+
 
 	message mensaje;
-	mensaje = getMessage(void);//recibo info del trade
-	resource misResources[5];
-	resources bancoDa;
-
-	int i = 0;
-	for (i; i == mensaje.contentLong; i++)
+	if (myStatus == IM_SERVER)
 	{
-		switch (mensaje.content[i])
+		while (!messageExist)
 		{
-		case STONE:
-		{
-			resources[i] = STONE;
-			break;
+			messageExist = COMU_s->isMessage();
 		}
-		case WHEAT:
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == BANK_TRADE)
 		{
-			resources[i] = WHEAT;
-			break;
-		}
-		case WOOD:
-		{
-			resources[i] = WOOD;
-			break;
-		}
-		case SHEEP:
-		{
-			resources[i] = SHEEP;
-			break;
-		}
-		case CLAY:
-		{
-			resources[i] = CLAY;
-			break;
-		}
+			give = mensaje.content[0];
+			take = mensaje.contentBIS[0];
+			puedo = catan->tradeBank(give, take, catan->getPlayer2());
+			if (puedo == NO_ERROR)
+			{
+				COMU_s->sendAck();
+			}
+			else
+			{
+				//generar error
+			}
+
+	
 		}
 	}
-	for (i = 0; i == mensaje.contentLongBIS; i++)
+	else if (myStatus == IM_CLIENT)
 	{
-		switch (mensaje.contentBIS[i])
+		while (!messageExist)
 		{
-		case STONE:
-		{
-			bancoDa = STONE;
-			break;
+			messageExist = COMU_c->isMessage();
 		}
-		case WHEAT:
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == BANK_TRADE)
 		{
-			bancoDa = WHEAT;
-			break;
-		}
-		case WOOD:
-		{
-			bancoDa = WOOD;
-			break;
-		}
-		case SHEEP:
-		{
-			bancoDa = SHEEP;
-			break;
-		}
-		case CLAY:
-		{
-			bancoDa = CLAY;
-			break;
-		}
+			give = mensaje.content[0];
+			take = mensaje.contentBIS[0];
+			puedo = catan->tradeBank(give, take, catan->getPlayer2());
+			if (puedo == NO_ERROR)
+			{
+				COMU_c->sendAck();
+			}
+			else
+			{
+				//generar error
+			}
+
+
 		}
 	}
 
-	error puedo = catan.tradeBank(misResources, bancoDa, catan.getPlayer2());
-	if (puedo == NO_ERROR)
-	{
-		//aviso trade
-	}
-	else
-	{
-		//generar error
-	}
+
 	return;
 }
+
 
 void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port es
 {
@@ -394,7 +375,7 @@ void FSMImplementation::checkPort(genericEvent * ev)
 	return;
 }
 
-//HECHO
+//HECHO (CARO FIJATE EN CAN BUILD ROAD!!!!)
 void FSMImplementation::building(genericEvent * ev)
 {
 	// PUEDE SER QUE LO QUE ESTA COMENTADO ABAJO NO HACE FALTA QUE VAYA!!!!
@@ -522,38 +503,135 @@ void FSMImplementation::building(genericEvent * ev)
 
 } 
 
+//HECHO (CARO FIJATE EN CAN BUILD ROAD Y EL ORDEN DE LA INVOCACION DE LOS PLAYERS!!!!)
 void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del dispatcher
 {
 	cout << "el otro construyo algo" << endl;
-	//message getMessage(void)
+	bool error = false;
 
-	//bool canBuildTown(Player *, Player *, Coordinates, bool);// La idea seria que el dispatcher haga un if(canBuild) y ahi haga el build si puede hacerlo (bool en true si es el primer turno)
-	//bool canBuildCity(Player *, Coordinates); //idem pero sin bool
-	//bool canBuildRoad(Player *, Player*, Coordinates); //idem DEPENDE DEL BUILDING QUE QUIERA HACER CUAL LLAMO
+	if (myStatus == IM_SERVER)
+	{
+		while (!messageExist)
+		{
+			messageExist = COMU_s->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+	}
+	else if (myStatus == IM_CLIENT)
+	{
+		// Espero a que me esponda que recibio los tokens
+		while (!messageExist)
+		{
+			messageExist = COMU_c->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+	}
 
-	//if (puede)
-	//{
-	//error buildTown(Coordinates Coordinates, Player * player); // construye un town, recibe el player que quiere construirla y donde quiere construirla, devuelve si hubo algun error en el proceso
-	//error buildCity(Coordinates Coordinates, Player * player); // se fija si hay una town en coordinates, de ser asi construye una city y les saca los recursos al player (ojo! canBuildCity se fija si tiene esos recursos) 
-	//error buildRoad(Coordinates Coordinates, Player * player); // construye una road y da el longestRoad si es correcto que esto pase 
+	//Coordenadas para logica
+	Coordinates coords(mensaje.x, mensaje.y, mensaje.z);
 
-	// actualizo display
+	switch (mensaje.identifier)
+	{
+		case ROAD:
+		{
+			error = catan->canBuildRoad(catan->getPlayer2(), catan->getPlayer1(), coords); //VERIFICAR CON CARO, CAMBIOS QUE SE HICIERON EN ESTA FUNCION POR LOS PRIMEROS DOS TURNOS
+			break;
+		}
+		case CITY:
+		{
+			error = catan->canBuildCity(catan->getPlayer2(), coords);
+			break;
+		}
+		case SETTLEMENT:
+		{
+			error = catan->canBuildTown(catan->getPlayer2(), catan->getPlayer1(), coords, true);
+			break;
+		}
+	}
 
-	//	void sendAck(void)
-	// }
-	//else
-	//{
-	//	generar error
-	//no respondo nada, el otro se da cuenta por un time out
-	//}
+	if (error != NO_ERROR_t)
+	{
+		//ERROR
+	}
+	else if (error == NO_ERROR_t)
+	{
+		switch (mensaje.identifier)
+		{
+			case ROAD:
+			{
+				catan->buildRoad(coords, catan->getPlayer2());
+				if (myStatus == IM_SERVER)
+				{
+					COMU_s->sendAck();
+				}
+				else if (myStatus == IM_CLIENT)
+				{
+					COMU_c->sendAck();
+				}
+				break;
+			}
+			case CITY:
+			{
+				catan->buildCity(coords, catan->getPlayer2());
+				if (myStatus == IM_SERVER)
+				{
+					COMU_s->sendAck();
+				}
+				else if (myStatus == IM_CLIENT)
+				{
+					COMU_c->sendAck();
+				}
+				break;
+			}
+			case SETTLEMENT:
+			{
+				catan->buildTown(coords, catan->getPlayer2());
+				if (myStatus == IM_SERVER)
+				{
+					COMU_s->sendAck();
+				}
+				else if (myStatus == IM_CLIENT)
+				{
+					COMU_c->sendAck();
+				}
+				break;
+			}
+		}
+	}
+
+	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), false, GENERAL_MENU);
+
 	return;
 }
 
+//HECHO
 void FSMImplementation::endOfMyTurn(genericEvent * ev)
 {
 	cout << "termine mi turno" << endl;
-	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), true, GENERAL_MENU);
-	//sendPass();
+	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), false, GENERAL_MENU);
+	if (myStatus == IM_SERVER)
+	{
+		COMU_s->sendPass();
+		while (!messageExist)
+		{
+			messageExist = COMU_s->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+	}
+	else if (myStatus == IM_CLIENT)
+	{
+		COMU_c->sendPass();
+		// Espero a que me esponda que recibio los tokens
+		while (!messageExist)
+		{
+			messageExist = COMU_c->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+	}
 	return;
 }
 
@@ -570,7 +648,7 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 	return;
 }
 
-//hecho
+//HECHO
 void FSMImplementation::dice(genericEvent * ev)
 {
     catan->getPlayer1()->throwDice();
@@ -578,35 +656,56 @@ void FSMImplementation::dice(genericEvent * ev)
 	return;
 } // player 1 tira dados
 
+//HECHO
 void FSMImplementation::victory(genericEvent * ev)
 {
 	cout << "gane" << endl;
-	void sendIWon(void);
-	message mensaje;
-
-	mensaje = getMessage(void);
-
-	if (mensaje.identifier == ACK)
+	if (myStatus == IM_SERVER)
 	{
-		void showIWon(void);
-		//generar quit
+		COMU_s->sendIWon();
+		while (!messageExist)
+		{
+			messageExist = COMU_s->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			GUI->showIWon();
+		}
 	}
-	else
+	else if (myStatus == IM_CLIENT)
 	{
-		//generar error
+		COMU_c->sendIWon();
+		// Espero a que me esponda que recibio los tokens
+		while (!messageExist)
+		{
+			messageExist = COMU_c->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			GUI->showIWon();
+		}
 	}
-
 	return;
 }
 
-//hecho
+//HECHO
 void FSMImplementation::victoryCheck(genericEvent * ev)
 {
 	cout << "gano?" << endl;
 	if ((catan->getPlayer2()->getVictoryPoints()) >= 10)
 	{
-		void sendAck(void)
-			void showILose(void)
+		if (myStatus == IM_SERVER)
+		{
+			COMU_s->sendAck();
+		}
+		else if (myStatus == IM_CLIENT)
+		{
+			COMU_c->sendAck();
+		}	
 	}
 	else
 	{
