@@ -206,7 +206,7 @@ void Catan::tradeDock(tradeIn give, tradeIn request, Dock dock, Player * player)
 	player->setStone(player->getStone() + request.stone);
 }
 
-void Catan::tradeBank(char give, char take, Player * player) {
+bool Catan::tradeBank(char give, char take, Player * player) {
 	bool hasResources = false;
 	switch (give) {
 	case WOOD:
@@ -240,23 +240,28 @@ void Catan::tradeBank(char give, char take, Player * player) {
 		}
 		break;
 	}
-	switch (take) {
-	case WOOD:
-		player->setWood(player->getWood() + 1);
-		break;
-	case CLAY:
-		player->setClay(player->getClay() + 1);
-		break;
-	case WHEAT:
-		player->setWheat(player->getWheat() + 1);
-		break;
-	case STONE:
-		player->setStone(player->getStone() + 1);
-		break;
-	case SHEEP:
-		player->setSheep(player->getSheep() + 1);
-		break;
-	}
+    if (hasResources){
+
+        switch (take) {
+            case WOOD:
+                player->setWood(player->getWood() + 1);
+                break;
+            case CLAY:
+                player->setClay(player->getClay() + 1);
+                break;
+            case WHEAT:
+                player->setWheat(player->getWheat() + 1);
+                break;
+            case STONE:
+                player->setStone(player->getStone() + 1);
+                break;
+            case SHEEP:
+                player->setSheep(player->getSheep() + 1);
+                break;
+        }
+    }
+    return hasResources;
+
 }
 
 void Catan::takeResources(Player * player, tradeIn resources) {// te saca la cantidad de recursos que dice tradeIn resources (cuando sale el robber)

@@ -207,13 +207,13 @@ void FSMImplementation::answering(genericEvent * ev)// al final con los informes
 	}
 }
 
-//HECHO (falta el checkBank?)
+//HECHO
 void FSMImplementation::bankTrade(genericEvent * ev)
 {
 	tradeBank trade;
 
 	trade = GUI->getTradeBank();
-
+    // tradeBank devuelve true si hizo el trade y false si no lo hizo
 	catan->tradeBank(trade.give, trade.recive, catan->getPlayer1()); //No deberia checkear si se puede hacer el trade antes?
 
 	if (myStatus == IM_SERVER)
@@ -351,7 +351,7 @@ void FSMImplementation::checkBank(genericEvent * ev)
 	return;
 }
 
-void FSMImplementation::portTrade(genericEvent * ev)
+void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port es
 {
 	cout << "port trade" << endl;
 
@@ -522,7 +522,7 @@ void FSMImplementation::building(genericEvent * ev)
 
 } 
 
-void FSMImplementation::verifyBuild(genericEvent * ev)
+void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del dispatcher
 {
 	cout << "el otro construyo algo" << endl;
 	//message getMessage(void)
@@ -570,11 +570,13 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 	return;
 }
 
+//hecho
 void FSMImplementation::dice(genericEvent * ev)
 {
+    catan->getPlayer1()->throwDice();
 	cout << "dados" << endl;
 	return;
-}
+} // player 1 tira dados
 
 void FSMImplementation::victory(genericEvent * ev)
 {
@@ -597,6 +599,7 @@ void FSMImplementation::victory(genericEvent * ev)
 	return;
 }
 
+//hecho
 void FSMImplementation::victoryCheck(genericEvent * ev)
 {
 	cout << "gano?" << endl;

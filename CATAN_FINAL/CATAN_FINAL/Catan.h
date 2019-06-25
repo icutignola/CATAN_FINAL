@@ -33,7 +33,7 @@ public:
 	bool checkDockTrade(Player *, tradeIn give, char resource, Coordinates coordinates); // AUXILIAR: se fija si todos los resources de give, son iguales y si son resource
 	void getResource(int diceNumber, Player *); // devuelve los recursos a player segun los numeros que salieron en el dado
 	void tradeDock(tradeIn myResources, tradeIn dockResources, Dock, Player *); //Le mando los recursos que quiero darle, se fija que todo el array se del mismo recurso y sea el recurso aceptado por el Dock, y los tradea por 1 dockResources
-	void tradeBank(char give, char take, Player *); // para darle 4 del mismo recurso al banco y tradearlo con take
+	bool tradeBank(char give, char take, Player *); // para darle 4 del mismo recurso al banco y tradearlo con take
 	void takeResources(Player *, tradeIn); // le saca la mitad de resources al player cuando sale el robber si el player tiene mas de 7 recursos (EL ARRAY DE ENTRADA DEBE TENER LA CANTIDAD DE RESOURCES/2 COMO TAMANO)
 	error getResourceBuildings(char, Player*, int);// agarra la cantidad de resources de cada isla dependiendo de si hay town o city
 	void moveRobber(Player * player, Player * other, Coordinates); //mueve el robber a la coordinate que recibe y roba a other un recurso aleatorio si se mueve el robber a una isla que tenia una city o town de other
