@@ -6,6 +6,8 @@
 #include "defines.h"
 #include "auxiliar.h"
 #include "io.h"
+#include "client.h"
+#include "server.h"
 #include "Catan.h"
 
 
@@ -16,7 +18,17 @@ class FSMImplementation : public genericFSM
 {
 private:
 
-	#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&FSMImplementation::x))
+#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&FSMImplementation::x))
+
+	io* GUI;
+	Catan* catan;
+	client* COMU_c;
+	server* COMU_s;
+	message mensaje;
+	int myStatus;		// Mi estado en la comunicacion
+	bool messageExist;
+	bool ackRecived;
+
 
 
 	const fsmCell fsmTable3[3][8] = {
@@ -44,4 +56,6 @@ private:
 
 public:
 	FSMImplementation() : genericFSM(&fsmTable3[0][0], 8, 3, inMyTurn) {}
+	
+	void setFSM(io* GUI_i, Catan* catan_i, client* COMUC_i, server* COMUS_i, int myStatus_i);
 };

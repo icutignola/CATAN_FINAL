@@ -74,15 +74,6 @@
 
 //************************************************************
 
-//*******************  General Game  *************************
-
-#define MAX_NUMBER_PIECES	25
-#define MAX_NUMBER_TOKENS	19
-#define YOUR_TURN			true
-#define MY_TURN			false
-
-//************************************************************
-
 //******************  Allegro Defines  ***********************
 
 #define NO_INPUT 0x45
@@ -364,7 +355,6 @@
 #define SINGLE_PORT_VERTEX_AMMOUNT 12
 #define DOUBLE_PORT_VERTEX_AMMOUNT 24
 
-
 typedef enum {
 	ERROR_GETTING_RESOURCE,
 	ERROR_TRADING_RESOURCE,
@@ -382,3 +372,20 @@ typedef enum {
 	ERROR_NO_ROADS_AVAILABLE,
 	ERROR_NO_CITIES_AVAILABLE
 }error; // tipos de errores que pueden ocurrir
+
+//*******************  General Game  *************************
+
+#define MAX_NUMBER_PIECES	25
+#define MAX_NUMBER_TOKENS	19
+#define YOUR_TURN			true
+#define MY_TURN			false
+
+
+#define CLICK_T EV_EXIST
+#define CLICK_F NO_EVENT
+
+#define MESSAGE_T	true
+#define MESSAGE_F	false
+
+
+//************************************************************

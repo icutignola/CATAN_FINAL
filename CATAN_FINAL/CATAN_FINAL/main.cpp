@@ -9,18 +9,21 @@
 #include "client.h"
 #include "server.h"
 #include "auxiliar.h"
-//#include "eventHandling.h"
-//#include "genericFSM.h"
-//#include "simpleEventGenerator.h"
-//#include "FSMImplementation.h"
+#include "eventHandling.h"
+#include "genericFSM.h"
+#include "simpleEventGenerator.h"
+#include "FSMImplementation.h"
 
 int main(int argc, char** argv)
 {
-	// Variable de FSM
-	//FSMImplementation fsm;
-	//simpleEventGenerator s;
-	//mainEventGenerator eventGen;
-	//eventGen.attach(&s);
+	//Variable de FSM
+	bool isClick = false;
+	bool isMessage = false;
+	FSMImplementation fsm;
+	simpleEventGenerator s;
+	mainEventGenerator eventGen;
+	genericEvent * ev;
+	eventGen.attach(&s);
 
 	// Variable de salida para finalizar el juego
 	bool quit = false;
@@ -876,27 +879,46 @@ int main(int argc, char** argv)
 	// Ya se completaron los primeros turnos de cada jugador
 	//*************************************************************************************
 
-	////FSM
-	//do
-	//{
-	//	//if(askClick)
-	//	//generateClickEvent;
-	//	//if(askMessage)
-	//	//generateMessageEvent;
+	//***************  FSM  ***********************
+	do
+	{
+		// Pregunto si hay un CLICK
+		isClick = GUI.isInput();
+		if (isClick == CLICK_T)
+		{
+			//Genera evento de click
+			isClick == CLICK_F;
+		}
+		
+		// Pregunto si hay mensaje
+		if (myStatus == IM_SERVER) 
+		{
+			isMessage = messageExist = COMU_s.isMessage();
+		}
+		else if (myStatus == IM_CLIENT)
+		{
+			isMessage = messageExist = COMU_c.isMessage();
+		}
 
+		if (isMessage == MESSAGE_T)
+		{
+			//Genera evento de mensaje
+			isMessage = MESSAGE_F;
+		}
+	
+		ev = eventGen.getNextEvent();
+		if (ev->getType() == EventQuit)
+		{
+			quit = true;
+			delete ev;
+		}
+		else
+		{
+			fsm.cycle(ev);
+		}
+	} while (!quit);
 
-	//	genericEvent * ev;
-	//	ev = eventGen.getNextEvent();
-	//	if (ev->getType() == EventQuit)
-	//	{
-	//		quit = true;
-	//		delete ev;
-	//	}
-	//	else
-	//		fsm.cycle(ev);
-	//} while (!quit);
-
-	//system("pause");
+	system("pause");
 	return 0;
 }
 
@@ -908,38 +930,3 @@ int main(int argc, char** argv)
 
 
 
-
-
-//Player player1("Ignacio"); //insert name
-//Player player2("Carola"); //pide el nombre de la otra computadora
-
-//player1.setTownsBuilt(3);
-
-//player1.setSheep(3);
-//player1.setStone(3);
-//player1.setWheat(3);
-//player1.setWood(3);
-//player1.setClay(3);
-
-//player2.setSheep(3);
-//player2.setStone(3);
-//player2.setWheat(3);
-//player2.setWood(3);
-//player2.setClay(3);
-
-//char types[MAP_ITEMS_NUMBER]; //recibo el array de types
-//char number[ISLANDS_AMMOUNT]; //recibo el array de circular tokens
-
-//unsigned char input;
-
-////genIn mensaje;
-
-////Catan catan(&player1, &player2, types, number); //CLIENTE
-
-//Catan catan(&player1, &player2); //SERVER
-
-//io AllGUI;
-
-////AllGUI.showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), catan.getMap(), true, GENERAL_MENU);
-//	
-//return 0;
