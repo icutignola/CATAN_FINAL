@@ -331,7 +331,6 @@ void FSMImplementation::checkBank(genericEvent * ev)
 	return;
 }
 
-
 void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port es
 {
 	cout << "port trade" << endl;
@@ -644,15 +643,44 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 
 	//void findNumber(dado, catan.getPlayer1(), resources resources[], Coordinates coordinates); //  encuentra todas las islas que tienen el numero tirado por el dado y si el numero era un 7 se encarga de llamar a la funcion que mueve al robber
 
-	//void sendDices (int dice1, int dice2)
 	return;
 }
 
 //HECHO
 void FSMImplementation::dice(genericEvent * ev)
 {
-    catan->getPlayer1()->throwDice();
-	cout << "dados" << endl;
+	int dado1;
+	int dado2;
+    dado1 = catan->getPlayer1()->throwDice();
+	dado2 = catan->getPlayer1()->throwDice();
+	if (myStatus == IM_SERVER)
+	{
+		COMU_s->sendDices(dado1, dado2);
+		while (!messageExist)
+		{
+			messageExist = COMU_s->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			ackRecived = true;
+		}
+	}
+	else if (myStatus == IM_CLIENT)
+	{
+		COMU_c->sendDices(dado1, dado2);
+		while (!messageExist)
+		{
+			messageExist = COMU_c->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			ackRecived = true;
+		}
+	}
 	return;
 } // player 1 tira dados
 
@@ -718,4 +746,14 @@ void FSMImplementation::error(genericEvent * ev)
 {
 	cout << "La cagaron" << endl;
 	return;
+}
+
+//HECHO, funcion que pasa los pumnteros
+void FSMImplementation::setFSM(io * GUI_i, Catan * catan_i, client * COMUC_i, server * COMUS_i, int myStatus_i)
+{
+	GUI = GUI_i;
+	catan = catan_i;
+	COMU_c = COMUC_i;
+	COMU_s = COMUS_i;
+	myStatus = myStatus_i;
 }

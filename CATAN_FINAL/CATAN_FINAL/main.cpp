@@ -880,6 +880,9 @@ int main(int argc, char** argv)
 	//*************************************************************************************
 
 	//***************  FSM  ***********************
+
+	fsm.setFSM(&GUI, &catan, &COMU_c, &COMU_s, myStatus); //VERIFICAR SI LOS PUNTEROS SE PASAN BIEN
+
 	do
 	{
 		// Pregunto si hay un CLICK
