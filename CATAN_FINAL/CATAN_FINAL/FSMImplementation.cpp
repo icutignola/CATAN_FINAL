@@ -5,6 +5,8 @@ void FSMImplementation::noAction(genericEvent * ev)
 	cout << "no puedo recibir eso master" << endl;
 	return;
 }
+
+//HECHO
 void FSMImplementation::askTrade(genericEvent * ev)
 {
 	int wood, clay, sheep, wheat, stone;
@@ -66,6 +68,8 @@ void FSMImplementation::askTrade(genericEvent * ev)
 	}
 
 }
+
+//HECHO
 void FSMImplementation::answering(genericEvent * ev)// al final con los informes hay algo que no entendi
 {
 
@@ -202,6 +206,8 @@ void FSMImplementation::answering(genericEvent * ev)// al final con los informes
 		}
 	}
 }
+
+//HECHO (falta el checkBank?)
 void FSMImplementation::bankTrade(genericEvent * ev)
 {
 	tradeBank trade;
@@ -257,6 +263,7 @@ void FSMImplementation::bankTrade(genericEvent * ev)
 
 	
 }
+
 void FSMImplementation::checkBank(genericEvent * ev)
 {
 	cout << "el otro tradeo con el banco" << endl;
@@ -343,16 +350,17 @@ void FSMImplementation::checkBank(genericEvent * ev)
 	}
 	return;
 }
+
 void FSMImplementation::portTrade(genericEvent * ev)
 {
 	cout << "port trade" << endl;
 
 	int wood, clay, sheep, wheat, stone;
-	wood = catan.getPlayer1()->getWood();
-	clay = catan.getPlayer1()->getClay();
-	sheep = catan.getPlayer1()->getSheep();
-	wheat = catan.getPlayer1()->getWheat();
-	stone = catan.getPlayer1()->getStone();
+	wood = catan->getPlayer1()->getWood();
+	clay = catan->getPlayer1()->getClay();
+	sheep = catan->getPlayer1()->getSheep();
+	wheat = catan->getPlayer1()->getWheat();
+	stone = catan->getPlayer1()->getStone();
 
 	//Que puerto fue?**********************************************************************************
 
@@ -372,6 +380,7 @@ void FSMImplementation::portTrade(genericEvent * ev)
 
 	return;
 }
+
 void FSMImplementation::checkPort(genericEvent * ev)
 {
 	cout << "el otro tradeo con el puerto" << endl;
@@ -384,6 +393,8 @@ void FSMImplementation::checkPort(genericEvent * ev)
 
 	return;
 }
+
+//HECHO
 void FSMImplementation::building(genericEvent * ev)
 {
 	// PUEDE SER QUE LO QUE ESTA COMENTADO ABAJO NO HACE FALTA QUE VAYA!!!!
@@ -509,7 +520,8 @@ void FSMImplementation::building(genericEvent * ev)
 
 	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), true, GENERAL_MENU);
 
-}
+} 
+
 void FSMImplementation::verifyBuild(genericEvent * ev)
 {
 	cout << "el otro construyo algo" << endl;
@@ -536,13 +548,15 @@ void FSMImplementation::verifyBuild(genericEvent * ev)
 	//}
 	return;
 }
+
 void FSMImplementation::endOfMyTurn(genericEvent * ev)
 {
 	cout << "termine mi turno" << endl;
-	void showGeneralDisplay(catan.getPlayer1(), catan.getPlayer2(), *Map, Turno(false))
-		sendPass();
+	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), true, GENERAL_MENU);
+	//sendPass();
 	return;
 }
+
 void FSMImplementation::endOtherTurn(genericEvent * ev)
 {
 	cout << "Termino el turno del otro" << endl;
@@ -555,11 +569,13 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 	//void sendDices (int dice1, int dice2)
 	return;
 }
+
 void FSMImplementation::dice(genericEvent * ev)
 {
 	cout << "dados" << endl;
 	return;
 }
+
 void FSMImplementation::victory(genericEvent * ev)
 {
 	cout << "gane" << endl;
@@ -580,10 +596,11 @@ void FSMImplementation::victory(genericEvent * ev)
 
 	return;
 }
+
 void FSMImplementation::victoryCheck(genericEvent * ev)
 {
 	cout << "gano?" << endl;
-	if ((catan.getPlayer2()->getVictoryPoints()) >= 10)
+	if ((catan->getPlayer2()->getVictoryPoints()) >= 10)
 	{
 		void sendAck(void)
 			void showILose(void)
@@ -594,6 +611,7 @@ void FSMImplementation::victoryCheck(genericEvent * ev)
 	}
 	return;
 }
+
 void FSMImplementation::error(genericEvent * ev)
 {
 	cout << "La cagaron" << endl;
