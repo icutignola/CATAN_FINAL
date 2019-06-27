@@ -27,7 +27,7 @@ private:
 	message mensaje;
 	int myStatus;		// Mi estado en la comunicacion
 	bool messageExist;
-	bool ackRecived;
+	bool ackReceived;
 
 
 

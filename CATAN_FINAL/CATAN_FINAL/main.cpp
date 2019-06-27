@@ -890,7 +890,7 @@ int main(int argc, char** argv)
 		if (isClick == CLICK_T)
 		{
 			//Genera evento de click
-			isClick == CLICK_F;
+			isClick = CLICK_F;
 		}
 		
 		// Pregunto si hay mensaje

@@ -34,55 +34,55 @@ enum implEvent : eventTypes { Trade, PortTrade, BankTrade, Build, MaxScore, Inva
 class cTrade : public genericEvent
 {
 public:
-	eventTypes getType(void) { return Trade; }
+	eventTypes getType() override { return Trade; }
 };
 
 class cPortTrade : public genericEvent
 {
 public:
-	eventTypes getType(void) { return PortTrade; }
+	eventTypes getType() override { return PortTrade; }
 };
 
 class cBankTrade : public genericEvent
 {
 public:
-	eventTypes getType(void) { return BankTrade; }
+	eventTypes getType() override { return BankTrade; }
 };
 
 class cBuild: public genericEvent
 {
 public:
-	eventTypes getType(void) { return Build; }
+	eventTypes getType() override { return Build; }
 };
 
 class cMaxScore : public genericEvent
 {
 public:
-	eventTypes getType(void) { return MaxScore; }
+	eventTypes getType() override { return MaxScore; }
 };
 
 class cInvalid : public genericEvent
 {
 public:
-	eventTypes getType(void) { return Invalid; }
+	eventTypes getType() override { return Invalid; }
 };
 
 class cEndOfTurn : public genericEvent
 {
 public:
-	eventTypes getType(void) { return EndOfTurn; }
+	eventTypes getType() override { return EndOfTurn; }
 };
 
 class cDiceThrew : public genericEvent
 {
 public:
-	eventTypes getType(void) { return DiceThrew; }
+	eventTypes getType() override { return DiceThrew; }
 };
 
 class cEventQuit : public genericEvent
 {
 public:
-	eventTypes getType(void) { return EventQuit; }
+	eventTypes getType() override { return EventQuit; }
 };
 
 class simpleEventGenerator : public eventGenerator
@@ -90,7 +90,7 @@ class simpleEventGenerator : public eventGenerator
 
 	public:
 	simpleEventGenerator();
-	genericEvent * getEvent(void);
+	genericEvent * getEvent() override;
 	
 	private:
 

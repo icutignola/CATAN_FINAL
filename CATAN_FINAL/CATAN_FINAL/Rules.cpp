@@ -31,7 +31,7 @@ bool Rules::verifyRoads(Player * player, Coordinates coordinates) {
 	return true;
 }
 
-error Rules::canBuildTown(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn) {
+errorT Rules::canBuildTown(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn) {
 	if (!isFirstTurn && !((player->getClay() >= 1) && (player->getWood() >= 1) && (player->getWheat() >= 1) && (player->getSheep() >= 1))) {// si tiene los recursos
 		return ERROR_NO_RESOURCES;
 	}
@@ -136,7 +136,7 @@ error Rules::canBuildTown(Player * player, Player * other, Coordinates coordinat
 	return NO_ERROR_t;
 }
 
-error Rules::canBuildRoad(Player * player, Player * other, Coordinates coordinates) {
+errorT Rules::canBuildRoad(Player * player, Player * other, Coordinates coordinates) {
 	if (!((player->getClay() >= 1) && (player->getWood() >= 1))) {// si no tiene los recursos
 		return ERROR_NO_RESOURCES;
 	}
@@ -172,37 +172,37 @@ bool Rules::hasAdjacentRoad(Player * player, Coordinates coordinates) {
 			if (player->getRoads()[i].getTokenCoordinates()->getZ() == EMPTY) {
 				if (player->getRoads()[i].getTokenCoordinates()->getX() == coordinates.getX()) {
 					Coordinates aux(coordinates.getX(), coordinates.getY(), player->getRoads()[i].getTokenCoordinates()->getY());
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == aux)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == aux)
 							return true;
 					}
 				}
 				else if (player->getRoads()[i].getTokenCoordinates()->getY() == coordinates.getY()) {
 					Coordinates aux(coordinates.getX(), coordinates.getY(), player->getRoads()[i].getTokenCoordinates()->getX());
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == aux)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == aux)
 							return true;
 					}
 				}
 				else if (player->getRoads()[i].getTokenCoordinates()->getY() == coordinates.getX()) {
 					Coordinates aux(coordinates.getX(), coordinates.getY(), player->getRoads()[i].getTokenCoordinates()->getX());
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == aux)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == aux)
 							return true;
 					}
 				}
 				else if (player->getRoads()[i].getTokenCoordinates()->getX() == coordinates.getY()) {
 					Coordinates aux(coordinates.getX(), coordinates.getY(), player->getRoads()[i].getTokenCoordinates()->getY());
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == aux)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == aux)
 							return true;
 					}
 				}
 			}
 			else {
 				if (((coordinates.getX() == player->getRoads()[i].getTokenCoordinates()->getX()) && (coordinates.getY() == player->getRoads()[i].getTokenCoordinates()->getY())) || ((coordinates.getY() == player->getRoads()[i].getTokenCoordinates()->getX()) && (coordinates.getX() == player->getRoads()[i].getTokenCoordinates()->getY()))) {
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == *(player->getRoads()[i].getTokenCoordinates()))
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == *(player->getRoads()[i].getTokenCoordinates()))
 							return true;
 					}
 				}
@@ -210,22 +210,22 @@ bool Rules::hasAdjacentRoad(Player * player, Coordinates coordinates) {
 		}
 		else {
 			if (player->getRoads()[i].getTokenCoordinates()->getZ() == EMPTY) {
-				for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-					if (allVertex[i] == coordinates)
+				for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+					if (allVertex[j] == coordinates)
 						return true;
 				}
 			}
 			else {
 				if (coordinates == *(player->getRoads()[i].getTokenCoordinates())) {
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == coordinates)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == coordinates)
 							return true;
 					}
 				}
 				else if (((coordinates.getX() == player->getRoads()[i].getTokenCoordinates()->getX()) && (coordinates.getY() == player->getRoads()[i].getTokenCoordinates()->getY())) || ((coordinates.getY() == player->getRoads()[i].getTokenCoordinates()->getX()) && (coordinates.getX() == player->getRoads()[i].getTokenCoordinates()->getY()))) {
 					Coordinates aux(coordinates.getX(), coordinates.getY(), EMPTY);
-					for (int i = 0; i < VERTEX_AMMOUNT; i++) {
-						if (allVertex[i] == aux)
+					for (int j = 0; j < VERTEX_AMMOUNT; j++) {
+						if (allVertex[j] == aux)
 							return true;
 					}
 				}
@@ -236,7 +236,7 @@ bool Rules::hasAdjacentRoad(Player * player, Coordinates coordinates) {
 }
 
 
-error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
+errorT Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
     int i = player->getTownsBuilt() -1;
     char x = player->getBuildings()[i].getTokenCoordinates()->getX();
     char y = player->getBuildings()[i].getTokenCoordinates()->getY();
@@ -268,6 +268,7 @@ error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
             return NO_ERROR_t;
         else if(coordinates.getX() == y && coordinates.getY() == x)
             return NO_ERROR_t;
+        
 
     }
     else if (coordinates == *(player->getBuildings()[i].getTokenCoordinates())) {
@@ -276,7 +277,7 @@ error Rules::firstCanBuildRoad(Player * player, Coordinates coordinates) {
     return ERROR_INVALID_COORDINATES;
 }
 
-error Rules::canBuildCity(Player * player, Coordinates coordinates) {
+errorT Rules::canBuildCity(Player * player, const Coordinates &coordinates) {
 	if (!((player->getStone() >= 3) && player->getWheat() >= 2)) {//veo si tiene los recursos necesarios
 		return ERROR_NO_RESOURCES;
 	}

@@ -1,16 +1,14 @@
 #include "AbstractBuilding.h"
 
-AbstractBuilding::AbstractBuilding(Coordinates coordinates) {
-	getTokenCoordinates()->setX(coordinates.getX());
-	getTokenCoordinates()->setY(coordinates.getY());
-	getTokenCoordinates()->setZ(coordinates.getZ());
-}
+//AbstractBuilding::AbstractBuilding(Coordinates coordinates) {
+//	getTokenCoordinates()->setX(coordinates.getX());
+//	getTokenCoordinates()->setY(coordinates.getY());
+//	getTokenCoordinates()->setZ(coordinates.getZ());
+//}
 
-AbstractBuilding::AbstractBuilding() {
-}
+AbstractBuilding::AbstractBuilding() = default;
 
-AbstractBuilding::~AbstractBuilding() {
-}
+AbstractBuilding::~AbstractBuilding() = default;
 
 AbstractBuilding& AbstractBuilding :: operator= (AbstractBuilding abstractBuilding)
 {

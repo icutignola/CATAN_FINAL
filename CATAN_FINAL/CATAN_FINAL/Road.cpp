@@ -3,19 +3,16 @@
 Road::Road()
 {
     this->setAbstractToken(ROAD_L);
-    this->setTokenCoordinates(Coordinates(0,0,6));
 }
 
-Road::Road(Coordinates coordinates)
+Road::Road(const Coordinates &coordinates)
 {
     this->setAbstractToken(ROAD_L);
     this->setTokenCoordinates(coordinates);
 }
 
 
-Road::~Road()
-{
-}
+Road::~Road() = default;
 
 Road& Road :: operator= (Road road)
 {

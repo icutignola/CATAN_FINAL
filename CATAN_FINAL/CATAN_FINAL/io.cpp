@@ -1415,7 +1415,7 @@ nameInfo io::getMyName(void)
 	nameInfo answer;
 	for (int j = 0; j < 255; j++)
 	{
-		answer.name[j] = NULL;
+		answer.name[j] = NULL_CHAR;
 	}
 	bool exit = false;
 	int i = 0;
@@ -1571,7 +1571,7 @@ nameInfo io::getMyName(void)
 					if (i > 0)
 					{
 						i--;
-						answer.name[i] = NULL;
+						answer.name[i] = NULL_CHAR;
 					}
 					break;
 				}
@@ -1595,7 +1595,7 @@ nameInfo io::getMyName(void)
 		al_flip_display();
 	}
 
-	answer.name[i] = '/0';
+	answer.name[i] = NULL_CHAR;
 	answer.longName = i;
 
 	return answer;
@@ -1607,7 +1607,7 @@ char * io::getMyIp(void)
 	char ip[15];
 	for (int j = 0; j < 15; j++)
 	{
-		ip[j] = NULL;
+		ip[j] = NULL_CHAR;
 	}
 	bool exit = false;
 	unsigned int i = 0;
@@ -1776,7 +1776,7 @@ char * io::getMyIp(void)
 					if (i > 0)
 					{
 						i--;
-						ip[i] = NULL;
+						ip[i] = NULL_CHAR;
 					}
 					break;
 				}
@@ -1804,7 +1804,7 @@ tradeBank io::getTradeBank(void)
 
 	tradeBank answer;
 	answer.give = NOTHING_SELECTED;
-	answer.recive = NOTHING_SELECTED;
+	answer.receive = NOTHING_SELECTED;
 
 	while (okSelected == false)
 	{
@@ -1841,7 +1841,7 @@ tradeBank io::getTradeBank(void)
 
 								else if (reciveFlag == false)
 								{
-									answer.recive = WOOD;
+									answer.receive = WOOD;
 									reciveFlag = true;
 									al_draw_scaled_bitmap(woodBmp, 0, 0, al_get_bitmap_width(woodBmp), al_get_bitmap_height(woodBmp), POS_RECIVE_X, POS_RECIVE_Y, WIDTH_ISLAND_BANK, HIGH_ISLAND_BANK, 0);
 								}
@@ -1859,7 +1859,7 @@ tradeBank io::getTradeBank(void)
 
 								else if (reciveFlag == false)
 								{
-									answer.recive = WHEAT;
+									answer.receive = WHEAT;
 									reciveFlag = true;
 									al_draw_scaled_bitmap(wheatBmp, 0, 0, al_get_bitmap_width(wheatBmp), al_get_bitmap_height(wheatBmp), POS_RECIVE_X, POS_RECIVE_Y, WIDTH_ISLAND_BANK, HIGH_ISLAND_BANK, 0);
 
@@ -1878,7 +1878,7 @@ tradeBank io::getTradeBank(void)
 
 								else if (reciveFlag == false)
 								{
-									answer.recive = CLAY;
+									answer.receive = CLAY;
 									reciveFlag = true;
 									al_draw_scaled_bitmap(clayBmp, 0, 0, al_get_bitmap_width(clayBmp), al_get_bitmap_height(clayBmp), POS_RECIVE_X, POS_RECIVE_Y, WIDTH_ISLAND_BANK, HIGH_ISLAND_BANK, 0);
 								}
@@ -1896,7 +1896,7 @@ tradeBank io::getTradeBank(void)
 
 								else if (reciveFlag == false)
 								{
-									answer.recive = STONE;
+									answer.receive = STONE;
 									reciveFlag = true;
 									al_draw_scaled_bitmap(stoneBmp, 0, 0, al_get_bitmap_width(stoneBmp), al_get_bitmap_height(stoneBmp), POS_RECIVE_X, POS_RECIVE_Y, WIDTH_ISLAND_BANK, HIGH_ISLAND_BANK, 0);
 								}
@@ -1914,7 +1914,7 @@ tradeBank io::getTradeBank(void)
 
 								else if (reciveFlag == false)
 								{
-									answer.recive = SHEEP;
+									answer.receive = SHEEP;
 									reciveFlag = true;
 									al_draw_scaled_bitmap(sheepBmp, 0, 0, al_get_bitmap_width(sheepBmp), al_get_bitmap_height(sheepBmp), POS_RECIVE_X, POS_RECIVE_Y, WIDTH_ISLAND_BANK, HIGH_ISLAND_BANK, 0);
 								}
@@ -1930,7 +1930,7 @@ tradeBank io::getTradeBank(void)
 							case RESET_A:
 							{
 								answer.give = NOTHING_SELECTED;
-								answer.recive = NOTHING_SELECTED;
+								answer.receive = NOTHING_SELECTED;
 								giveFlag = false;
 								reciveFlag = false;
 								al_draw_bitmap(bankTradeOutput, 0, 0, 0);

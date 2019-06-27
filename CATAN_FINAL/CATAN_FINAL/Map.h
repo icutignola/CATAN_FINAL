@@ -9,20 +9,25 @@
 class Map
 {
 public:
+
+    /** --------- Constructores --------- */
     Map();
-    Map(char[MAP_ITEMS_NUMBER], char[ISLANDS_AMMOUNT]);
+
+    /** --------- Destructor --------- */
     ~Map();
-    Island * getIslands(void); //devuelve un array de las islas
-    Dock * getDocks(void); //devuelve un array de los puertos
-    void setIslands(void);// para poner las islas al principio
-    void setDocks(void); //para mezclar los puertos al principio
 
-	char* getIslandTypeArray(void);
-	char* getIslandTokensArray(void);
-	char* getDocksArray(void);
+    /** --------- Getters --------- */
+    Island * getIslands(); //devuelve un array de las islas
+    Dock * getDocks(); //devuelve un array de los puertos
+    char* getIslandTypeArray(); // Devuelve el arreglo de los posibles tipos de islas
+    char* getIslandTokensArray(); // Devuelve el arreglo de los posible numeros de islas
+    char* getDocksArray(); // Devuelve el arreglo de los posibles tipos de puertos
 
-	void setIslands(char* types, char* nums);
-	void setDocks(char* numbers);
+    /** --------- Setters --------- */
+    void setIslands();// (PARA SERVER)
+    void setDocks(); // (PARA SERVER)
+	void setIslands(char* types, char* nums); // (PARA CLIENT)
+	void setDocks(char* numbers); // (PARA CLIENT)
 
 private:
 	char islandsTypeArray[ISLANDS_AMMOUNT]; //arreglo de tipo de islas

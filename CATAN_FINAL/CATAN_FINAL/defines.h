@@ -65,8 +65,8 @@
 #define TIME_OUT			false
 #define SECONDS_CONNECTION	2.0
 
-#define MESSAGE_RECIVED		true
-#define	MESSAGE_NOT_RECIVED	false
+#define MESSAGE_RECEIVED		true
+#define	MESSAGE_NOT_RECEIVED	false
 
 #define IM_CLIENT		0x00
 #define	IM_SERVER		0x01
@@ -358,7 +358,7 @@
 typedef enum {
 	ERROR_GETTING_RESOURCE,
 	ERROR_TRADING_RESOURCE,
-	ERROR_TRADING_PORT,
+	ERROR_TRADING_DOCK,
 	NO_ERROR_t,
 	ERROR_TAKING_RESOURCE_POST_ROBBER,
 	ERROR_BUILDING_CITY,
@@ -371,14 +371,16 @@ typedef enum {
 	ERROR_NO_RESOURCES,
 	ERROR_NO_ROADS_AVAILABLE,
 	ERROR_NO_CITIES_AVAILABLE
-}error; // tipos de errores que pueden ocurrir
+}errorT; // tipos de errores que pueden ocurrir
+
+#define NULL_CHAR '\0'
 
 //*******************  General Game  *************************
 
 #define MAX_NUMBER_PIECES	25
 #define MAX_NUMBER_TOKENS	19
 #define YOUR_TURN			true
-#define MY_TURN			false
+#define MY_TURN			    false
 
 
 #define CLICK_T EV_EXIST

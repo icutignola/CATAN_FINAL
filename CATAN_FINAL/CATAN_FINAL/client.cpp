@@ -48,7 +48,7 @@ bool client::reciveMessage(void)
 {
 	boost::system::error_code errRecived;
 
-	bool answer = MESSAGE_RECIVED;
+	bool answer = MESSAGE_RECEIVED;
 
 	inputMessageLen = 0;
 
@@ -66,10 +66,10 @@ bool client::reciveMessage(void)
 	if (errRecived)
 	{
 
-		errorRecived.setErrorNumber(errClientRecived);
+		errorRecived.setErrorNumber(errClientReceived);
 		string errorDescription = "Error mientras se intento recibir el mensaje";
 		errorRecived.setErrorDescription(errorDescription);
-		answer = MESSAGE_NOT_RECIVED;
+		answer = MESSAGE_NOT_RECEIVED;
 	}
 
 	return answer;
@@ -320,7 +320,7 @@ void client::sendBankTrade(unsigned char offerSource, unsigned char reciveSource
 		outputMessage[1 + i] = offerSource;
 	}
 
-	//Recursos que recive del banco
+	//Recursos que receive del banco
 	outputMessage[i] = reciveSource;
 
 	sendMessage();
@@ -504,9 +504,9 @@ message client::getMessage(void)
 	message answer;
 	bool messageStatus;
 
-	//messageStatus = reciveMessage();
-	messageStatus = MESSAGE_RECIVED;
-	if (messageStatus == MESSAGE_RECIVED)
+	//messageStatus = receiveMessage();
+	messageStatus = MESSAGE_RECEIVED;
+	if (messageStatus == MESSAGE_RECEIVED)
 	{
 		answer.identifier = inputMessage[0];
 		unsigned char coordQuant;
@@ -635,24 +635,24 @@ message client::getMessage(void)
 
 		default:
 		{
-			answer.identifier = NULL;
-			answer.contentLong = NULL;
-			answer.x = NULL;
-			answer.y = NULL;
-			answer.z = NULL;
+			answer.identifier = NULL_CHAR;
+			answer.contentLong = NULL_CHAR;
+			answer.x = NULL_CHAR;
+			answer.y = NULL_CHAR;
+			answer.z = NULL_CHAR;
 		}
 
 		}
 
 	}
 
-	else if (messageStatus == MESSAGE_NOT_RECIVED)
+	else if (messageStatus == MESSAGE_NOT_RECEIVED)
 	{
-		answer.identifier = NULL;
-		answer.contentLong = NULL;
-		answer.x = NULL;
-		answer.y = NULL;
-		answer.z = NULL;
+		answer.identifier = NULL_CHAR;
+		answer.contentLong = NULL_CHAR;
+		answer.x = NULL_CHAR;
+		answer.y = NULL_CHAR;
+		answer.z = NULL_CHAR;
 	}
 
 	return answer;
@@ -663,20 +663,20 @@ message client::getMessage(void)
 message client::cleanMessage(void)
 {
 	message answer;
-	answer.identifier = NULL;
-	answer.contentLong = NULL;
+	answer.identifier = NULL_CHAR;
+	answer.contentLong = NULL_CHAR;
 	for (int i = 0; i < 255; i++)
 	{
-		answer.content[i] = NULL;
+		answer.content[i] = NULL_CHAR;
 	}
-	answer.contentLongBIS = NULL;
+	answer.contentLongBIS = NULL_CHAR;
 	for (int i = 0; i < 255; i++)
 	{
-		answer.contentBIS[i] = NULL;
+		answer.contentBIS[i] = NULL_CHAR;
 	}
-	answer.x = NULL;
-	answer.y = NULL;
-	answer.z = NULL;
+	answer.x = NULL_CHAR;
+	answer.y = NULL_CHAR;
+	answer.z = NULL_CHAR;
 
 	return answer;
 }

@@ -4,7 +4,7 @@ using namespace std;
 //******************************  Constructor server  ******************************************
 server::server(const char *ip)
 {
-	strcpy(ipRecived, ip);
+	strcpy(ipReceived, ip);
 	IO_handler = new boost::asio::io_service();
 	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::tcp::v4(), HELLO_PORT);
 	socketServer = new boost::asio::ip::tcp::socket(*IO_handler);				//Crea un socket vacio
@@ -41,7 +41,7 @@ bool server::startConnection()
 //*********************************************************************************************
 
 //********************************  recivedMessage  *******************************************
-bool server::reciveMessage()
+bool server::receiveMessage()
 {
 	boost::system::error_code errRecived;
 	bool answer = true;
@@ -62,9 +62,9 @@ bool server::reciveMessage()
 	if (errRecived)
 	{
 
-		errorRecived.setErrorNumber(errServerSend);
+		errorReceived.setErrorNumber(errServerSend);
 		string errorDescription = "Error mientras se intento cargar el mensaje";
-		errorRecived.setErrorDescription(errorDescription);
+		errorReceived.setErrorDescription(errorDescription);
 		answer = false;
 	}
 
@@ -200,12 +200,10 @@ void server::sendMapIs(char arr[ISLANDS_AMMOUNT], char docks[DOCKS_AMMOUNT])
 		outputMessage[1 + i] = docks[i];
 
 	}
-	for (i, j; i < (ISLANDS_AMMOUNT+DOCKS_AMMOUNT); i++, j++)
+	for (; i < (ISLANDS_AMMOUNT+DOCKS_AMMOUNT); i++, j++)
 	{
 		outputMessage[1 + i] = arr[j];
 	}
-
-	i = 0;
 
 	sendMessage();
 }
@@ -343,7 +341,7 @@ void server::sendBankTrade(unsigned char offerSource, unsigned char reciveSource
 		outputMessage[1 + i] = offerSource;
 	}
 
-	//Recursos que recive del banco
+	//Recursos que receive del banco
 	outputMessage[i] = reciveSource;
 
 	sendMessage();
@@ -370,7 +368,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.clay != 0)
 	{
-		for (i; i <= myRes.clay; i++)
+		for (; i <= myRes.clay; i++)
 		{
 			outputMessage[3 + i] = CLAY;
 		}
@@ -379,7 +377,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.sheep != 0)
 	{
-		for (i; i <= myRes.sheep; i++)
+		for (; i <= myRes.sheep; i++)
 		{
 			outputMessage[3 + i] = SHEEP;
 		}
@@ -388,7 +386,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.stone != 0)
 	{
-		for (i; i <= myRes.stone; i++)
+		for (; i <= myRes.stone; i++)
 		{
 			outputMessage[3 + i] = STONE;
 		}
@@ -397,7 +395,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.wheat != 0)
 	{
-		for (i; i <= myRes.wheat; i++)
+		for (; i <= myRes.wheat; i++)
 		{
 			outputMessage[3 + i] = WHEAT;
 		}
@@ -406,7 +404,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (myRes.wood != 0)
 	{
-		for (i; i <= myRes.wood; i++)
+		for (; i <= myRes.wood; i++)
 		{
 			outputMessage[3 + i] = WOOD;
 		}
@@ -416,7 +414,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.clay != 0)
 	{
-		for (i; i <= yourRes.clay; i++)
+		for (; i <= yourRes.clay; i++)
 		{
 			outputMessage[3 + i] = CLAY;
 		}
@@ -425,7 +423,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.sheep != 0)
 	{
-		for (i; i <= yourRes.sheep; i++)
+		for (; i <= yourRes.sheep; i++)
 		{
 			outputMessage[3 + i] = SHEEP;
 		}
@@ -434,7 +432,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.stone != 0)
 	{
-		for (i; i <= yourRes.stone; i++)
+		for (; i <= yourRes.stone; i++)
 		{
 			outputMessage[3 + i] = STONE;
 		}
@@ -443,7 +441,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.wheat != 0)
 	{
-		for (i; i <= yourRes.wheat; i++)
+		for (; i <= yourRes.wheat; i++)
 		{
 			outputMessage[3 + i] = WHEAT;
 		}
@@ -452,7 +450,7 @@ void server::sendOfferTrade(tradeIn myRes, tradeIn yourRes)
 
 	if (yourRes.wood != 0)
 	{
-		for (i; i <= yourRes.wood; i++)
+		for (; i <= yourRes.wood; i++)
 		{
 			outputMessage[3 + i] = WOOD;
 		}
@@ -512,9 +510,9 @@ message server::getMessage(void)
 	message answer;
 	bool messageStatus;
 
-	//messageStatus = reciveMessage();
-	messageStatus = MESSAGE_RECIVED;
-	if (messageStatus == MESSAGE_RECIVED)
+	//messageStatus = receiveMessage();
+	messageStatus = MESSAGE_RECEIVED;
+	if (messageStatus == MESSAGE_RECEIVED)
 	{
 		answer.identifier = inputMessage[0];
 		unsigned char coordQuant;
@@ -611,7 +609,7 @@ message server::getMessage(void)
 
 			int i = 0;
 
-			for (i; i < answer.contentLong; i++)
+			for (; i < answer.contentLong; i++)
 			{
 				answer.content[i] = inputMessage[i + 2];
 			}
@@ -628,12 +626,12 @@ message server::getMessage(void)
 
 			int i = 0;
 
-			for (i; i < answer.contentLong; i++)
+			for (; i < answer.contentLong; i++)
 			{
 				answer.content[i] = inputMessage[i + 2];
 			}
 
-			for (i; i < (answer.contentLongBIS + i); i++)
+			for (; i < (answer.contentLongBIS + i); i++)
 			{
 				answer.contentBIS[i] = inputMessage[i + 2];
 			}
@@ -643,24 +641,24 @@ message server::getMessage(void)
 
 		default:
 		{
-			answer.identifier = NULL;
-			answer.contentLong = NULL;
-			answer.x = NULL;
-			answer.y = NULL;
-			answer.z = NULL;
+			answer.identifier = NULL_CHAR;
+			answer.contentLong = NULL_CHAR;
+			answer.x = NULL_CHAR;
+			answer.y = NULL_CHAR;
+			answer.z = NULL_CHAR;
 		}
 
 		}
 
 	}
 
-	else if (messageStatus == MESSAGE_NOT_RECIVED)
+	else if (messageStatus == MESSAGE_NOT_RECEIVED)
 	{
-		answer.identifier = NULL;
-		answer.contentLong = NULL;
-		answer.x = NULL;
-		answer.y = NULL;
-		answer.z = NULL;
+		answer.identifier = NULL_CHAR;
+		answer.contentLong = NULL_CHAR;
+		answer.x = NULL_CHAR;
+		answer.y = NULL_CHAR;
+		answer.z = NULL_CHAR;
 	}
 
 	return answer;
@@ -668,27 +666,27 @@ message server::getMessage(void)
 }
 //**********************************************************************************************
 
-message server::cleanMessage(void)
+message server::cleanMessage()
 {
 	message answer;
-	answer.identifier = NULL;
-	answer.contentLong = NULL;
+	answer.identifier = NULL_CHAR;
+	answer.contentLong = NULL_CHAR;
 	for (int i = 0; i < 255; i++)
 	{
-		answer.content[i] = NULL;
+		answer.content[i] = NULL_CHAR;
 	}
-	answer.contentLongBIS = NULL;
+	answer.contentLongBIS = NULL_CHAR;
 	for (int i = 0; i < 255; i++)
 	{
-		answer.contentBIS[i] = NULL;
+		answer.contentBIS[i] = NULL_CHAR;
 	}
-	answer.x = NULL;
-	answer.y = NULL;
-	answer.z = NULL;
+	answer.x = NULL_CHAR;
+	answer.y = NULL_CHAR;
+	answer.z = NULL_CHAR;
 
 	for (int i = 0; i < 257; i++)
 	{
-		outputMessage[i] = NULL;
+		outputMessage[i] = NULL_CHAR;
 	}
 
 	return answer;

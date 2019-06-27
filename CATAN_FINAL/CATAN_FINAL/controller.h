@@ -10,8 +10,8 @@
 class controller
 {
 public:
-	controller();
-	~controller();
+	//controller();
+	//~controller();
 
 	virtual bool startConnection(void) = 0;
 	virtual void sendName(void) = 0;

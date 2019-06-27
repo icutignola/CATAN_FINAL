@@ -5,8 +5,17 @@ class Road :
         public AbstractToken
 {
 public:
+    /** --------- Constructores --------- */
+
+    /** Crea un camino en las coordenadas (EMPTY, EMPTY, EMPTY) e identificador ROAD_L*/
     Road();
-    Road(Coordinates); //crea una road en coordinates
+
+    /** Crea un camino en las coordenadas coordinates e identificador ROAD_L */
+    Road(const Coordinates &coordinates); //crea una road en coordinates
+
+    /** --------- Destructor --------- */
     ~Road();
-    Road& operator= (Road road); //sobrecarga del operador =
+
+    /** Sobrecarga del operador asignacion, copia las coordenadas del parametro */
+    Road& operator= (Road road);
 };

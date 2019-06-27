@@ -6,13 +6,11 @@ Robber::Robber() {
     setAbstractToken(ROBBER_L);
 }
 
-Robber::Robber(Coordinates dessertCoord)
+Robber::Robber(const Coordinates &dessertCoord)
 {
     setAbstractToken(ROBBER_L);
     setTokenCoordinates(dessertCoord);
 }
 
 
-Robber::~Robber()
-{
-}
+Robber::~Robber() = default;

@@ -14,37 +14,51 @@ using namespace std;
 class Player {
 
 public:
+    /** --------- Constructores --------- */
     Player();
-    Player(string); // constructor
+    Player(string name); // constructor
 
-    //Getters y Setters para recursos
-    //FUNCIONAN GETTERS Y SETTERS
-    void setWood(int);
-    int getWood(void); //devuelve la cantidad de woods que tiene el player
-    void setClay(int);
-    int getClay(void); //devuelve la cantidad de clays que tiene el player
-    void setSheep(int);
-    int getSheep(void); //devuelve la cantidad de sheep que tiene el player
-    void setWheat(int);
-    int getWheat(void); //devuelve la cantidad de wheat que tiene el player
-    void setStone(int);
-    int getStone(void); //devuelve la cantidad de stones que tiene el player
-    int getVictoryPoints(void); // devuelve los victory points del player
-    void setTownsBuilt(int);
-    int getTownsBuilt(void); // devuelve cuantas towns construyo el player
-    void setCitiesBuilt(int);
-    int getCitiesBuilt(void); // devuelve cuantas cities construyo el player
-    void setRoadsBuilt(int);
-    int getRoadsBuilt(void); // devuelve cuantos roads construyo el player
-    void setVictoryPoints(int);
+
+    /** --------- Getters --------- */
+    /** @return la cantidad de cada recurso que tiene el jugador */
+    int getWood();
+    int getClay();
+    int getSheep();
+    int getWheat();
+    int getStone();
+
+    int getVictoryPoints();
+
+    /** @return cantidad de tokens de ese tipo que hay en el mapa */
+    int getTownsBuilt();
+    int getCitiesBuilt();
+    int getRoadsBuilt();
+
     AbstractBuilding * getBuildings(); // devuelve un array con los edificios (towns y cities) que construyo el player
-    Road * getRoads(void); // devuelve un array con los caminos construidos por el player
-	const char* getName(void);
-	void setName(string name_i);
-    int throwDice(void); // tira un dado
+    Road * getRoads(); // devuelve un array con los caminos construidos por el player
+	const char* getName();
 
+
+    /** --------- Setters --------- */
+    void setWood(int wood);
+	void setName(string name);
+    void setClay(int clay);
+    void setSheep(int sheep);
+    void setWheat(int wheat);
+    void setStone(int stone);
+    void setTownsBuilt(int towns);
+    void setCitiesBuilt(int cities);
+    void setRoadsBuilt(int roads);
+    void setVictoryPoints(int victoryPoints);
+
+
+    /** Tira un solo dado */
+    int throwDice();
+
+    /** Verifica que el jugador tenga todos los recursos de tradeIn */
 	bool hasResources(tradeIn resources);// mira si tiene resources para tradear
-	//void buyDevCard(void);// si queremos
+
+	//void buyDevCard(void);// opcional
 	//void throwDevelopment(developmentCard); // hacer clase development card
 
 	

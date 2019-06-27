@@ -32,7 +32,7 @@ typedef struct
 typedef struct
 {
 	unsigned char give;
-	unsigned char recive;
+	unsigned char receive;
 
 }tradeBank;
 
@@ -50,7 +50,7 @@ typedef struct
 {
 	unsigned char	identifier;		//IDENTIFICADOR
 	unsigned char	contentLong;	//LARGO DEL MENSAJE PRIMARIO
-	char	content[255];	// MENSAJE (NOMBRE, LISTA DE TOKENS, LISTA DE RECURSOS, ETC)
+	char	        content[255];	// MENSAJE (NOMBRE, LISTA DE TOKENS, LISTA DE RECURSOS, ETC)
 	unsigned char	contentLongBIS;	//LARGO DEL MENSAJE SECUNDARIO
 	unsigned char	contentBIS[9];  //MENSAJE SECUNDARIO (LISTA DE RECURSOS PARA HACER INTERCAMBIO, ETC)
 	unsigned char	x;				//VALOR 1 (COORDENADA X, DADO1, ETC)

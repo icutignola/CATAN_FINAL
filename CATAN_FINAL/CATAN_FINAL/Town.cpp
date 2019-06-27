@@ -2,12 +2,10 @@
 
 
 
-Town::Town(Coordinates coordinates)
+Town::Town(const Coordinates &coordinates)
 {
     this->setAbstractToken(TOWN_L);
     this->setTokenCoordinates(coordinates);
 }
 
-Town::~Town()
-{
-}
+Town::~Town() = default;

@@ -6,8 +6,13 @@ class Robber :
         public AbstractToken
 {
 public:
-    int robberNumber = ROBBER_NUMBER; //constante del numero del robber
+    /** --------- Constructores --------- */
+    /** Crea el robber en la coordenada (EMPTY, EMPTY, EMPTY) e identificador ROBBER_L */
     Robber();
-    Robber(Coordinates); //crea el robber en una posicion
+
+    /** Crea el robber en la coordenada coordinates e identificador ROBBER_L */
+    Robber(const Coordinates &coordinates);
+
+    /** --------- Destructor --------- */
     ~Robber();
 };

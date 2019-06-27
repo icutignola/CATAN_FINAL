@@ -16,16 +16,16 @@ Player::Player() {
 }
 
 Player::Player(string nombre) { // constructor
-	wood = 9;
-	sheep = 9;
-	clay = 9;
-	stone = 9;
-	wheat = 9;
+	wood = 0;
+	sheep = 0;
+	clay = 0;
+	stone = 0;
+	wheat = 0;
 	citiesBuilt = 0;
 	townsBuilt = 0;
 	roadsBuilt = 0;
 	victoryPoints = 0;
-	this->name = nombre;
+	name = nombre;
 }
 
 int Player::getClay() {
@@ -64,7 +64,7 @@ int Player::getStone() {
 void Player::setStone(int newStones) {
 	this->stone = newStones;
 }
-int Player::getVictoryPoints(void) {
+int Player::getVictoryPoints() {
 	return this->victoryPoints;
 }
 
@@ -72,30 +72,30 @@ void Player::setVictoryPoints(int points) {
 	this->victoryPoints = points;
 }
 
-int Player::throwDice(void) {
+int Player::throwDice() {
 	return (rand() % 6) + 1;
 }
 
 void Player::setTownsBuilt(int towns) {
 	this->townsBuilt = towns;
 }
-int Player:: getTownsBuilt(void) {
+int Player:: getTownsBuilt() {
 	return this->townsBuilt;
 }
 void Player:: setCitiesBuilt(int cities) {
 	this->citiesBuilt = cities;
 }
-int Player:: getCitiesBuilt(void) {
+int Player:: getCitiesBuilt() {
 	return this->citiesBuilt;
 }
-void Player:: setRoadsBuilt(int roads) {
-	this->roadsBuilt = roads;
+void Player:: setRoadsBuilt(int newRoadsBuilt) {
+	roadsBuilt = newRoadsBuilt;
 }
-int Player:: getRoadsBuilt(void) {
+int Player:: getRoadsBuilt() {
 	return this->roadsBuilt;
 }
 
-Road * Player::getRoads(void) {
+Road * Player::getRoads() {
 	return this->roads;
 }
 
@@ -104,11 +104,10 @@ AbstractBuilding * Player:: getBuildings() {
 }
 
 bool Player::hasResources(tradeIn resources) {
-    if ((getWood() < resources.wood) || (getClay() < resources.clay) || (getSheep() < resources.sheep) || (getWheat() < resources.wheat) || (getStone() < resources.stone))
-        return false;
-    return true;
+    return !((getWood() < resources.wood) || (getClay() < resources.clay) || (getSheep() < resources.sheep) ||
+             (getWheat() < resources.wheat) || (getStone() < resources.stone));
 }
-const char* Player::getName(void)
+const char* Player::getName()
 {
 	return name.c_str();
 }

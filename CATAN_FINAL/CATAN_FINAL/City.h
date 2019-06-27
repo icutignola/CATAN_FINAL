@@ -4,6 +4,12 @@ class City :
         public AbstractBuilding
 {
 public:
-    City(Coordinates); //Construye una city en coordinates
+    /** --------- Constructor --------- */
+
+    /** Se construye en la coordenada pasada como parametro y se le asigna el identificador CITY_L */
+    City(const Coordinates &coordinates);
+
+
+    /** --------- Destructor --------- */
     ~City();
 };

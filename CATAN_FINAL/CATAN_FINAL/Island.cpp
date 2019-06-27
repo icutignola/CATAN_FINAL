@@ -1,6 +1,11 @@
 #include "Island.h"
+#include "defines.h"
+
 Island::Island()
 {
+    position = EMPTY;
+    islandNumber = 0;
+    type = DESIERTO;
 	isBlocked = false;
 }
 
@@ -12,27 +17,25 @@ Island::Island(char position, int islandNumber, char type) {
 }
 
 
-Island::~Island()
-{
-}
+Island::~Island() = default;
 
-char Island::getNumber(void) {
+char Island::getNumber() {
 	return islandNumber;
 }
 
-bool Island::getIsBlocked(void) {
-	return this->isBlocked;
+bool Island::getIsBlocked() {
+	return isBlocked;
 }
 
-char Island::getPosition(void) {
-	return this->position;
+char Island::getPosition() {
+	return position;
 }
-void Island::setBlock(bool isBlocked) {
-	this->isBlocked = isBlocked;
+void Island::setBlock(bool _isBlocked) {
+	isBlocked = _isBlocked;
 }
 
 
-char Island::getType(void)
+char Island::getType()
 {
 	return this->type;
 }

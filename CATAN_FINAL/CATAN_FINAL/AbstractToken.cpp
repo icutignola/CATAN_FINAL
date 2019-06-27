@@ -4,26 +4,24 @@ AbstractToken::AbstractToken() {
     value = 0;
 }
 
-AbstractToken::AbstractToken(char value, Coordinates coordinates)
-{
-    this->value = value;
-    this->tokenCoordinates = coordinates;
-}
+//AbstractToken::AbstractToken(char value, Coordinates coordinates)
+//{
+//    this->value = value;
+//    this->tokenCoordinates = coordinates;
+//}
 
-AbstractToken::~AbstractToken()
-{
-}
+AbstractToken::~AbstractToken() = default;
 
-Coordinates * AbstractToken::getTokenCoordinates(void) {
+Coordinates * AbstractToken::getTokenCoordinates() {
     return &tokenCoordinates;
 }
-void AbstractToken::setTokenCoordinates(Coordinates coordinates) {
+void AbstractToken::setTokenCoordinates(const Coordinates &coordinates) {
     this->tokenCoordinates = coordinates;
 }
 
-void AbstractToken::setAbstractToken(char value) {
-    this->value = value;
+void AbstractToken::setAbstractToken(char _value) {
+    value = _value;
 }
-char AbstractToken::getAbstractToken(void) {
+char AbstractToken::getAbstractToken() {
     return this->value;
 }

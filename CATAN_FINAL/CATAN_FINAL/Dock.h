@@ -1,16 +1,27 @@
 #pragma once
+
+#include "defines.h"
+
 class Dock
 {
 public:
-    Dock(char coordinate, char type); // constructor que recibe la posicion y el tipo de puerto
-    Dock(); // no hace nada pero lo deje para evitar errores de constructores (visual)
+    /** --------- Constructor --------- */
+
+    /** Crea un puerto de tipo type, en la posicion coordinate */
+    Dock(char coordinate, char type);
+
+    /** Crea un puerto de tipo DESIERTO en la posicion EMPTY (Nunca dejar asi al puerto) */
+    Dock();
+
+    /** --------- Destructor --------- */
     ~Dock();
-    char getPosition(void); // devuelve la posicion del dock
-    char getTradeType(void); // devuelve el tipo de dock
+
+    /** --------- Getters --------- */
+    char getPosition();
+    char getTradeType();
 private:
-    char position;
-    char tradeType; // para diferenciar los puertos
-    // void getDock(port *);
+    char position; // Coordenada del puerto
+    char tradeType; // Tipo de intercambio en el puerto
 
 
 };

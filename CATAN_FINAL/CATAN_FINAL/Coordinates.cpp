@@ -30,16 +30,16 @@ char Coordinates::getZ() {
     return z;
 }
 
-void Coordinates:: setX(char x) {
-    this->x = x;
+void Coordinates:: setX(char x_) {
+    x = x_;
 }
 
-void Coordinates:: setY(char y) {
-    this->y = y;
+void Coordinates:: setY(char y_) {
+    y = y_;
 }
 
-void Coordinates:: setZ(char z) {
-    this->z = z;
+void Coordinates:: setZ(char z_) {
+   z = z_;
 }
 
 bool Coordinates:: operator== (Coordinates coordinates) //No importa el orden de las coordenadas, compara todo con todo

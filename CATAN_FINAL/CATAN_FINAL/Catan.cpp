@@ -1,24 +1,25 @@
 #include "Catan.h"
 
 
-Catan::Catan(Player * player1, Player* player2, char map[MAP_ITEMS_NUMBER], char numbers[ISLANDS_AMMOUNT]) {// constructor por si soy client que tenog que copiar el mapa
-	this->player1 = player1;
-	this->player2 = player2;
-	this->catanError = NO_ERROR_t;
-	this->map = Map(map, numbers);
-	Coordinates dessertCoord;
-	bool found = false;
-	for (int i = 0; i < ISLANDS_AMMOUNT && !found; i++) {
-		if (getMap()->getIslands()[i].getType() == DESIERTO) {
-			dessertCoord.setX(getMap()->getIslands()[i].getPosition());
-			getMap()->getIslands()[i].setBlock(true);
-			found = true;
-		}
-		else
-			getMap()->getIslands()[i].setBlock(false);
-	}
-	this->robber = Robber(dessertCoord);
-}
+//Catan::Catan(Player * player1, Player* player2, char map[MAP_ITEMS_NUMBER], char numbers[ISLANDS_AMMOUNT]) {// constructor por si soy client que tenog que copiar el mapa
+//	this->player1 = player1;
+//	this->player2 = player2;
+//	this->catanError = NO_ERROR_t;
+//	this->map = Map(map, numbers);
+//	Coordinates dessertCoord;
+//	bool found = false;
+//	for (int i = 0; i < ISLANDS_AMMOUNT && !found; i++) {
+//		if (getMap()->getIslands()[i].getType() == DESIERTO) {
+//			dessertCoord.setX(getMap()->getIslands()[i].getPosition());
+//			getMap()->getIslands()[i].setBlock(true);
+//			found = true;
+//		}
+//		else
+//			getMap()->getIslands()[i].setBlock(false);
+//	}
+//	this->robber = Robber(dessertCoord);
+//}
+
 Catan::Catan(Player * player1, Player * player2)
 {
 	this->player1 = player1;
@@ -35,25 +36,21 @@ Catan::Catan(Player * player1, Player * player2)
 			getMap()->getIslands()[i].setBlock(true);
 			found = true;
 		}
-		else
-			getMap()->getIslands()[i].setBlock(false);
 	}
 	this->robber = Robber(dessertCoord);
 }
 
-Catan::Catan()
-{
+Catan::Catan() = default;
+
+void Catan::randomize() {
+	srand((unsigned int)time(nullptr));
 }
 
-void Catan::randomize(void) {
-	srand((unsigned int)time(NULL));
-}
-
-Robber * Catan::getRobber(void) {
+Robber * Catan::getRobber() {
 	return &robber;
 }
 
-void Catan::ValidTrade(tradeIn give, tradeIn request, Player * player, Player * other)//recibe el player que quiere hacer el cambio
+void Catan::validTrade(tradeIn give, tradeIn request, Player *player, Player *other)//recibe el player que quiere hacer el cambio
 {
 	player->setWood(player->getWood() - give.wood);
 	other->setWood(other->getWood() + give.wood);
@@ -78,7 +75,7 @@ void Catan::ValidTrade(tradeIn give, tradeIn request, Player * player, Player * 
 	other->setStone(other->getStone() - request.stone);
 }
 
-bool Catan::checkDockTrade(Player * player, tradeIn give, char resource, Coordinates coordinates) { // se fija que todos los resources de give sean iguales
+errorT Catan::checkDockTrade(Player * player, tradeIn give, Coordinates coordinates) { // se fija que todos los resources de give sean iguales
 	int coordenadasPosibleDock; //si esas coordinates tiene un port seria en esa coordenada
 	if (coordinates.getY() >= '0' && coordinates.getY() <= '5') { //si la segunda es un numero, la primera tambien
 		if (coordinates.getY() == (coordinates.getX() + 1) % 6) //si el Y esta a la derecha de X (siempre el que va primero en sentido anti horario es el que puede ser puerto)
@@ -90,12 +87,12 @@ bool Catan::checkDockTrade(Player * player, tradeIn give, char resource, Coordin
 		coordenadasPosibleDock = coordinates.getX();
 	}
 	else
-		return false;
+		return ERROR_TRADING_DOCK;
 
 	if (getMap()->getDocks()[coordenadasPosibleDock].getTradeType() == 'P' || getMap()->getDocks()[coordenadasPosibleDock].getTradeType() == 'M' || getMap()->getDocks()[coordenadasPosibleDock].getTradeType() == 'N') { //los puertos solos
 		for (int i = 0; i < SINGLE_PORT_VERTEX_AMMOUNT; i++) {
 			if (singlePortVertexes[i] == coordinates) {
-				return player->hasResources(give);
+				return player->hasResources(give)? NO_ERROR_t:ERROR_NO_RESOURCES;
 				/* switch(getMap()->getDocks()[coordenadasPosibleDock].getTradeType()){
 					case 'P':
 						if(give.stone == 2 && give.clay == 0 && give.sheep == 0 && give.wheat == 0 && give.wood == 0)
@@ -115,23 +112,23 @@ bool Catan::checkDockTrade(Player * player, tradeIn give, char resource, Coordin
 				*/
 			}
 		}
-		return false;
+		return ERROR_TRADING_DOCK;
 	}
 	else {// es un puerto doble
 		for (int i = 0; i < DOUBLE_PORT_VERTEX_AMMOUNT; i++) {
 			if (doublePortVertexes[i] == coordinates) {
-				return player->hasResources(give);
+				return player->hasResources(give)? NO_ERROR_t:ERROR_NO_RESOURCES;
 			}
 		}
-		return false;
+		return ERROR_TRADING_DOCK;
 	}
 }
 
-error Catan::getError() {
+errorT Catan::getError() {
 	return this->catanError;
 }
 
-void Catan::setError(error error) {
+void Catan::setError(errorT error) {
 	this->catanError = error;
 }
 
@@ -146,7 +143,7 @@ int Catan::resourcesQuantity(Player * player) {
 }
 
 
-void Catan::buildTown(Coordinates coordinates, Player * player)
+void Catan::buildTown(const Coordinates &coordinates, Player * player)
 {
 	Town newTown(coordinates);
 	player->getBuildings()[player->getTownsBuilt() + player->getCitiesBuilt()] = newTown;
@@ -154,7 +151,7 @@ void Catan::buildTown(Coordinates coordinates, Player * player)
 	player->setTownsBuilt(player->getTownsBuilt() + 1);
 }
 
-void Catan::buildCity(Coordinates coordinates, Player * player) //se llama SIEMPRE despues de canBuildCity
+void Catan::buildCity(const Coordinates &coordinates, Player * player) //se llama SIEMPRE despues de canBuildCity
 {
 	City newCity(coordinates);
 	for (int i = 0; i < player->getTownsBuilt() + player->getCitiesBuilt(); i++) //recorro el array de buildings del player
@@ -171,11 +168,11 @@ void Catan::buildCity(Coordinates coordinates, Player * player) //se llama SIEMP
 	player->setStone(player->getStone() - 3);
 }
 
-void Catan::buildRoad(Coordinates coordinates, Player * player) {
+void Catan::buildRoad(const Coordinates &coordinates, Player * player) {
 	Road newRoad(coordinates);
 	player->getRoads()[player->getRoadsBuilt()] = newRoad;
 	player->setRoadsBuilt(player->getRoadsBuilt() + 1);
-	if (getLongestRoadPlayer() == NULL) { //si nadie tenia longest road todavia
+	if (getLongestRoadPlayer() == nullptr) { //si nadie tenia longest road todavia
 		if (player->getRoadsBuilt() >= LONGEST_ROAD_MIN) {
 			setLongestRoadPlayer(player);
 			player->setVictoryPoints(player->getVictoryPoints() + 2);
@@ -192,7 +189,8 @@ bool Catan::canTrade(tradeIn give, tradeIn request, Player * player, Player * ot
 	return player->hasResources(give) && other->hasResources(request);
 }
 
-void Catan::tradeDock(tradeIn give, tradeIn request, Dock dock, Player * player) { //SIEMPRE se llama a checkDockTrade antes
+void Catan::tradeDock(tradeIn give, tradeIn request , Player * player) { //SIEMPRE se llama a checkDockTrade antes
+    //CREO QUE DEBERIA VERIFICAR LA CANTIDAD DE RECURSOS
 	player->setWood(player->getWood() - give.wood);
 	player->setClay(player->getClay() - give.clay);
 	player->setSheep(player->getSheep() - give.sheep);
@@ -206,7 +204,7 @@ void Catan::tradeDock(tradeIn give, tradeIn request, Dock dock, Player * player)
 	player->setStone(player->getStone() + request.stone);
 }
 
-bool Catan::tradeBank(char give, char take, Player * player) {
+errorT Catan::tradeBank(char give, char take, Player * player) {
 	bool hasResources = false;
 	switch (give) {
 	case WOOD:
@@ -260,7 +258,7 @@ bool Catan::tradeBank(char give, char take, Player * player) {
                 break;
         }
     }
-    return hasResources;
+    return hasResources? NO_ERROR_t: ERROR_NO_RESOURCES;
 
 }
 
@@ -272,7 +270,7 @@ void Catan::takeResources(Player * player, tradeIn resources) {// te saca la can
 	player->setStone(player->getStone() - resources.stone);
 }
 
-error Catan::getResourceBuildings(char type, Player* player, int qty)
+errorT Catan::getResourceBuildings(Player* player, char type, int qty)
 {
 	switch (type) {
 	case BOSQUE:
@@ -296,7 +294,7 @@ error Catan::getResourceBuildings(char type, Player* player, int qty)
 	return NO_ERROR_t;
 }
 
-void Catan::moveRobber(Player * player, Player * other, Coordinates newRobberCoordinates) {
+void Catan::moveRobber(Player * player, Player * other, const Coordinates &newRobberCoordinates) {
 	getRobber()->setTokenCoordinates(newRobberCoordinates);
 	bool hasBuilding = false;
 	for (int i = 0; i < MAX_BUILDING_AMMOUNT && !hasBuilding; i++) {
@@ -306,7 +304,7 @@ void Catan::moveRobber(Player * player, Player * other, Coordinates newRobberCoo
 		}
 	}
 	if (hasBuilding && ((other->getClay() + other->getWood() + other->getWheat() + other->getSheep() + other->getStone()) > 0)) {
-		char * resource = NULL;
+		char * resource = nullptr;
 		int dim = 0;
 		for (int i = 0; i < player->getWood(); i++) {
 			if (dim % BLOCK == 0) {
@@ -372,10 +370,10 @@ void Catan::getResource(int dice, Player * player) {
 			for (int j = 0; j < player->getCitiesBuilt() + player->getTownsBuilt(); j++) {
 				if ((player->getBuildings()[j].getTokenCoordinates()->getX() == map.getIslands()[i].getPosition()) || (player->getBuildings()[j].getTokenCoordinates()->getY() == map.getIslands()[i].getPosition()) || (player->getBuildings()[j].getTokenCoordinates()->getZ() == map.getIslands()[i].getPosition())) {
 					if (player->getBuildings()[j].getAbstractToken() == TOWN_L) {
-						getResourceBuildings(map.getIslands()[i].getType(), player, 1);
+						getResourceBuildings(player, map.getIslands()[i].getType(), 1);
 					}
-					else {
-						getResourceBuildings(map.getIslands()[i].getType(), player, 2);
+					else { //deberia ser city
+                        getResourceBuildings(player, map.getIslands()[i].getType(), 2);
 					}
 				}
 			}
@@ -383,17 +381,17 @@ void Catan::getResource(int dice, Player * player) {
 	}
 }
 
-Map * Catan::getMap(void) {
+Map * Catan::getMap() {
 	return &map;
 }
 //Catan::~Catan()
 //{
 //}
 
-Player * Catan::getPlayer1(void) {
+Player * Catan::getPlayer1() {
 	return player1;
 }
-Player * Catan::getPlayer2(void) {
+Player * Catan::getPlayer2() {
 	return player2;
 }
 
@@ -401,7 +399,7 @@ Rules Catan::getRules() {
 	return rules;
 }
 
-Player * Catan::getLongestRoadPlayer(void) {
+Player * Catan::getLongestRoadPlayer() {
 	return longestRoad;
 }
 
@@ -409,16 +407,16 @@ void Catan::setLongestRoadPlayer(Player * player) {
 	this->longestRoad = player;
 }
 
-bool Catan::canBuildTown(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn) {
+bool Catan::canBuildTown(Player * player, Player * other, const Coordinates &coordinates, bool isFirstTurn) {
 	setError(rules.canBuildTown(player, other, coordinates, isFirstTurn));
     return (catanError == NO_ERROR_t);
 }
-bool Catan::canBuildCity(Player *player, Coordinates coordinates) {
+bool Catan::canBuildCity(Player *player, const Coordinates &coordinates) {
 	setError(rules.canBuildCity(player, coordinates));
     return (catanError == NO_ERROR_t);
 
 }
-bool Catan::canBuildRoad(Player * player, Player * other, Coordinates coordinates, bool isFirstTurn){
+bool Catan::canBuildRoad(Player * player, Player * other, const Coordinates &coordinates, bool isFirstTurn){
     if(isFirstTurn)
         setError(rules.firstCanBuildRoad(player, coordinates));
     else

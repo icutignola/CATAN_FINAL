@@ -8,52 +8,184 @@
 class Catan
 {
 public:
-	Catan(Player *, Player*, char[MAP_ITEMS_NUMBER], char[ISLANDS_AMMOUNT]);
-	Catan(Player *, Player *); //Se mandan punteros a los dos players, primero es player1
+    /** --------- Constructores --------- */
+	//Catan(Player *, Player*, char[MAP_ITEMS_NUMBER], char[ISLANDS_AMMOUNT]);
+
+	/** Crea el objeto Catan con los punteros a los jugadores. */
+	Catan(Player * player1, Player * player2);
+
+	/** Constructor por default. */
 	Catan();
 	//~Catan();
-	// Getters y setters
-	Robber * getRobber(void); //Devuelve puntero al Robber 
-	Player * getPlayer1(void); //Devuelve puntero a player1
-	Player * getPlayer2(void); //Devuelve puntero a player2
-	error getError(); //Devuelve si hubo un error (ver enum en defines.h)
-	void setError(error); //Cambia el error
-	Map * getMap(void); //Devuelve el puntero al mapa
-	Rules getRules(void); //Devuelva las reglas
 
-	void randomize(void); //genera la semilla para el rand (llamar una vez al principio del juego y listo.) //FUNCIONA
+
+    /** --------- Getters --------- */
+	Robber * getRobber();
+	Player * getPlayer1();
+	Player * getPlayer2();
+	errorT getError();
+	Map * getMap();
+	Rules getRules();
+
+    /** @return nullptr si ninguno lo tiene todavia */
+    Player * getLongestRoadPlayer();
+
+
+    /** --------- Setters --------- */
+    void setError(errorT);
+    void setLongestRoadPlayer(Player *);
+
+
+    /** Agrega aleatoriedad al juego (Llamar solamente una vez y al principio del juego). */
+	void randomize();
+
+	/** @return: Cantidad total de recursos que tiene el player. */
 	int resourcesQuantity(Player * player);
-	//void findNumber(int, Player *, resources resources[], Coordinates coordinates); // FUNCION QUE TE DIJE QUE HAY QUE ELIMINAR encuentra todas las islas que tienen el numero tirado por el dado y si el numero era un 7 se encarga de llamar a la funcion que mueve al robber
-	//NOTA: TODOS LOS ARRAYS DE RESOURCES DEBEN TERMINAR CON UN RESOURCE END (VER RESOURCES.H)
-	void ValidTrade(tradeIn give, tradeIn request, Player *, Player *);// si el trade era valido lo hace
-	bool canTrade(tradeIn resources1, tradeIn resources2, Player * player, Player * other); //Se fija si player tiene los resources resources1 y si other tiene los resources resources2 para poder tradear
-	void buildTown(Coordinates Coordinates, Player * player); // construye un town, recibe el player que quiere construirla y donde quiere construirla, devuelve si hubo algun error en el proceso
-	void buildCity(Coordinates Coordinates, Player * player); // se fija si hay una town en coordinates, de ser asi construye una city y les saca los recursos al player (ojo! canBuildCity se fija si tiene esos recursos)
-	void buildRoad(Coordinates Coordinates, Player * player); // construye una road y da el longestRoad si es correcto que esto pase
-	bool checkDockTrade(Player *, tradeIn give, char resource, Coordinates coordinates); // AUXILIAR: se fija si todos los resources de give, son iguales y si son resource
-	void getResource(int diceNumber, Player *); // devuelve los recursos a player segun los numeros que salieron en el dado
-	void tradeDock(tradeIn myResources, tradeIn dockResources, Dock, Player *); //Le mando los recursos que quiero darle, se fija que todo el array se del mismo recurso y sea el recurso aceptado por el Dock, y los tradea por 1 dockResources
-	bool tradeBank(char give, char take, Player *); // para darle 4 del mismo recurso al banco y tradearlo con take
-	void takeResources(Player *, tradeIn); // le saca la mitad de resources al player cuando sale el robber si el player tiene mas de 7 recursos (EL ARRAY DE ENTRADA DEBE TENER LA CANTIDAD DE RESOURCES/2 COMO TAMANO)
-	error getResourceBuildings(char, Player*, int);// agarra la cantidad de resources de cada isla dependiendo de si hay town o city
-	void moveRobber(Player * player, Player * other, Coordinates); //mueve el robber a la coordinate que recibe y roba a other un recurso aleatorio si se mueve el robber a una isla que tenia una city o town de other
-	Player * getLongestRoadPlayer(void); //Devuelve el puntero al player con el longestRoad
-	void setLongestRoadPlayer(Player *); //Cambia el player con el longestRoad
-	bool canBuildTown(Player *, Player *, Coordinates, bool);// La idea seria que el dispatcher haga un if(canBuild) y ahi haga el build si puede hacerlo (bool en true si es el primer turno)
-	bool canBuildCity(Player *player, Coordinates coordinates);
-	bool canBuildRoad(Player *, Player *, Coordinates, bool);
 
+	//NOTA: TODOS LOS ARRAYS DE RESOURCES DEBEN TERMINAR CON UN RESOURCE END (VER RESOURCES.H)
+
+	/** Realiza el intercambio entre los recursos de player (give) y los de other (request).
+	 ** @param: player. El jugador que hace el pedido del intercambio.
+	 ** @param: other. El jugador que acepta el intercambio.
+	 ** @param: give. Los recursos que ofrece player para el intercambio.
+	 ** @param: request. Los recursos pedidos por player en el intercambio.
+	 */
+	 void validTrade(tradeIn give, tradeIn request, Player *player, Player *other);
+
+	/** Verifica que player tenga la cantidad de recursos de resources1 y que other tenga resources2.
+	 ** @param: resources1. Los recursos que quiere ofrecer player.
+	 ** @param: resources2. Los recursos que quiere ofrecer other.
+	 ** @return: true si ambos tienen los recursos.
+	 ** @return: false en caso contrario.
+	*/
+	bool canTrade(tradeIn resources1, tradeIn resources2, Player * player, Player * other);
+
+	/** Construye un town para player en el lugar de coordinates (Siempre llamar a canBuildTown antes de esta funcion). */
+	void buildTown(const Coordinates &coordinates, Player * player);
+
+    /** Construye un city para player en el lugar de coordinates (Siempre llamar a canBuildCity antes de esta funcion). */
+    void buildCity(const Coordinates &coordinates, Player * player);
+
+    /** Construye un road para player en el lugar de coordinates (Siempre llamar a canBuildRoad antes de esta funcion). */
+	void buildRoad(const Coordinates &coordinates, Player * player);
+
+	/** Verifica que en las coordenadas mandada haya un puerto, si las hay, se fija que en give que haya suficientes para
+	 ** hacer un intercambio.
+	 **
+	 ** @param: player. El jugador que quiere intercambiar con el puerto.
+	 ** @param: coordinates. La posicion del edificio que quiere intercambiar con un puerto.
+	 ** @param: give. Los recursos que ofrece player para el intercambio.
+	 ** @return: ERROR_TRADING_PORT si no habia puerto en esas coordenadas o hubo algun caso que no deberia pasar.
+	 ** @return: NO_RESOURCES_ERROR si no habia suficientes recursos para hacer el intercambio.
+	 **
+	 ** WARNING: No se fija que los recursos mandados en give sean los del puerto correspondiente porque en teoria no
+	 ** no es un caso posible.
+	 */
+	errorT checkDockTrade(Player * player, tradeIn give, Coordinates coordinates);
+
+	/** Se le da a player los recursos que por los towns/cities construidos en una o más islas cuando se tira el dado.
+	 **
+	 ** @param: diceNumber. Numero del 2 al 12, la suma de los dos dados tirados en el turno.
+	 ** @param: player. El jugador que reclama los recursos.
+	 */
+	void getResource(int diceNumber, Player * player);
+
+	/** Le da a player los recursos de dockResources y le saca los de myResources (SIEMPRE llamar a checkDockTrade antes).
+	 **
+	 ** WARNING: Siempre llamar a la funcion checkDockTrade antes.
+	 ** WARNING: Actualmente no verifica la cantidad de recursos recibidos en los tradeIns.
+	 */
+	void tradeDock(tradeIn myResources, tradeIn dockResources, Player * player);
+
+	/** Verifica que player tiene al menos 4 recursos de give, si los tiene, le saca esos 4 recursos
+	 ** y se le da un recurso de tipo take.
+	 **
+	 ** @param: player. Jugador que quiere intercambiar con el banco.
+	 ** @param: give. Tipo de recurso que entrega player.
+	 ** @param: take. Tipo de recurso que player le pide al banco.
+	 ** @return: NO_ERROR_t si se pudo realizar el intercambio.
+	 ** @return: ERROR_NO_RESOURCES si no tenia los recursos para hacer el intercambio.
+	 */
+	errorT tradeBank(char give, char take, Player * player);
+
+	/** Le saca a player todos los recursos en el tradeIn. Se usa cuando el robber tiene que sacar los recursos al jugador.
+	 **
+	 ** @param: player. Jugador al que se le tiene que sacar los recursos.
+	 ** @param: resources. Recursos que hay que sacarle a player.
+	 **
+	 ** WARNING: No hace ninguna verificacion sobre la cantidad de recursos o si el player tiene esos recursos. Un mal
+	 ** uso de esta funcion podria hacer que player tenga recursos negativos.
+	 */
+	void takeResources(Player * player, tradeIn resources);
+
+	/** Le da a player una quantity cantidad de recursos de tipo resourceType.
+	 **
+	 ** @return: ERROR_GET_RESOURCE si el resourceType mandado era de tipo DESIERTO.
+	 ** @return: NO_ERROR_t en caso contrario.
+	 */
+	errorT getResourceBuildings(Player * player, char resourceType, int quantity);
+
+	/** Mueve al robber a coordinates y si other tenia algun edificio ahi, se le saca un recurso aleatorio y se lo da a player.
+	 **
+	 ** @param: player. El jugador que mueve al robber.
+	 ** @param: other. El jugador que no esta moviendo al robber.
+	 ** @param: coordinates. La posicion donde se quiere mover al robber.
+	 */
+	void moveRobber(Player * player, Player * other, const Coordinates &coordinates);
+
+	/** Verifica que player puede construir un town en esa posicion
+	 **
+	 ** @param: player. El jugador que quiere construir
+	 ** @param: other. El otro jugador
+	 ** @param: coordinates. La posicion donde se quiere construir el town
+	 ** @param: isFirstTurn. True si es uno de los turnos de inicializacion del juego, false en caso contrario.
+	 ** @return: true si puede construir ahi, false en caso contrario.
+	 */
+	bool canBuildTown(Player * player, Player * other, const Coordinates &coordinates, bool isFirstTurn);// La idea seria que el dispatcher haga un if(canBuild) y ahi haga el build si puede hacerlo (bool en true si es el primer turno)
+
+	/** Verifica que player puede construir una ciudad en esa posicion
+	 **
+	 ** @param: player. El jugador que quiere construir la ciudad
+	 ** @param: coordinates. La posicion donde se quiere construir la ciudad
+	 ** @return: true si puede construir ahi, false en caso contrario.
+	 */
+	bool canBuildCity(Player * player, const Coordinates &coordinates);
+
+    /** Verifica que player puede construir un road en esa posicion
+     **
+     ** @param: player. El jugador que quiere construir
+     ** @param: other. El otro jugador
+     ** @param: coordinates. La posicion donde se quiere construir el road
+     ** @param: isFirstTurn. True si es uno de los turnos de inicializacion del juego, false en caso contrario.
+     ** @return: true si puede construir ahi, false en caso contrario.
+     */
+	bool canBuildRoad(Player * player, Player * other, const Coordinates &coordinates, bool isFirstTurn);
+
+	/** Inicializador del juego para cliente. Copia los datos del mapa pasados.
+	 **
+	 ** @param: P1. Jugador 1.
+	 ** @param: P2. Jugador 2.
+	 ** @param: types. Arreglo del tipo de recurso de la isla ordenado por coordenada.
+	 ** @param: tokens. Arreglo del valor de dado de la isla ordenado por coordenada. No se agrega el desierto.
+	 ** @param: dock. Arreglo del tipo de puerto ordenado por coordenada
+	 */
 	void setGame(Player* P1, Player* P2, char types[ISLANDS_AMMOUNT], char tokens[ISLANDS_AMMOUNT - 1], char dock[DOCKS_AMMOUNT]);
+
+    /** Inicializador del juego para server. Crea el mapa y mezcla las islas y puertos.
+     **
+     ** @param: P1. Jugador 1.
+     ** @param: P2. Jugador 2.
+     */
 	void setGame(Player* P1, Player* P2);
 
 private:
-	Player * player1; // los datos de los jugadores se guardan ahi
+	Player * player1;
 	Player * player2;
 	Robber robber;
-	error catanError;
+	errorT catanError;
 	Map map;
 	Rules rules;
-	Player * longestRoad = NULL;
+	Player * longestRoad = nullptr;
 	Coordinates singlePortVertexes[SINGLE_PORT_VERTEX_AMMOUNT] = { Coordinates('0','A','B'), Coordinates('0','B', EMPTY),
 																  Coordinates('1','C','G'), Coordinates('1','G', EMPTY),
 																  Coordinates('2','L','P'), Coordinates('2','P', EMPTY),

@@ -5,62 +5,45 @@ Map::Map()
 {
 	//NUMEROS: 2 3 3 4 4 5 5 6 6 8 8 9 9 10 10 11 11 12
 	numbers[0] = 2;
-	for (int i = 1; i <= 2; i++)
-	{
-		numbers[i] = 3;
+	for(int i = 0, number = 2; i<ISLANDS_AMMOUNT - 1; i++){
+	    numbers[i] = number;
+	    if(i%2 == 0)
+	        number++;
+        if(number == 7)
+            number++;
 	}
-	for (int i = 3; i <= 4; i++)
-	{
-		numbers[i] = 4;
-	}
-	for (int i = 5; i <= 6; i++)
-	{
-		numbers[i] = 5;
-	}
-	for (int i = 7; i <= 8; i++)
-	{
-		numbers[i] = 6;
-	}
-	for (int i = 9; i <= 10; i++)
-	{
-		numbers[i] = 8;
-	}
-	for (int i = 11; i <= 12; i++)
-	{
-		numbers[i] = 9;
-	}
-	for (int i = 13; i <= 14; i++)
-	{
-		numbers[i] = 10;
-	}
-	for (int i = 15; i <= 16; i++)
-	{
-		numbers[i] = 11;
-	}
-	numbers[17] = 12;
 
-	//ISLA: DESIERTO BOSQUE BOSQUE BOSQUE BOSQUE PASTO PASTO PASTO COLINA COLINA COLINA MONTANIA MONTANIA MONTANIA CAMPO CAMPO CAMPO CAMPO
-	islandsTypeArray[0] = DESIERTO;
-	for (int i = 1; i <= 4; i++)
-	{
-		islandsTypeArray[i] = BOSQUE;
+	//ISLA: DESIERTO BOSQUE BOSQUE BOSQUE BOSQUE PASTO PASTO PASTO PASTO COLINA COLINA COLINA MONTANIA MONTANIA MONTANIA CAMPO CAMPO CAMPO CAMPO
+	int desiertoQty, bosqueQty, pastoQty, colinaQty, montaniaQty, campoQty;
+	desiertoQty = 1;
+	bosqueQty = pastoQty = campoQty = 4;
+	colinaQty = montaniaQty = 3;
+	//NOTA: Todas las variables anteriores, deben sumar ISLANDS_AMMOUNT
+	int i = 0;
+	while(i< desiertoQty){
+	    islandsTypeArray[i] = DESIERTO;
+	    i++;
 	}
-	for (int i = 5; i <= 7; i++)
-	{
-		islandsTypeArray[i] = PASTO;
-	}
-	for (int i = 8; i <= 10; i++)
-	{
-		islandsTypeArray[i] = COLINA;
-	}
-	for (int i = 11; i <= 15; i++)
-	{
-		islandsTypeArray[i] = MONTANIA;
-	}
-	for (int i = 15; i <= 19; i++)
-	{
-		islandsTypeArray[i] = CAMPO;
-	}
+    while(i< bosqueQty){
+        islandsTypeArray[i] = BOSQUE;
+        i++;
+    }
+    while(i< pastoQty){
+        islandsTypeArray[i] = PASTO;
+        i++;
+    }
+    while(i< campoQty){
+        islandsTypeArray[i] = CAMPO;
+        i++;
+    }
+    while(i< colinaQty){
+        islandsTypeArray[i] = COLINA;
+        i++;
+    }
+    while(i< montaniaQty){
+        islandsTypeArray[i] = MONTANIA;
+        i++;
+    }
 
 	//DOCKS: N T O L P M
 	dockArray[0] = 'N';
@@ -74,39 +57,7 @@ Map::Map()
 
 }
 
-Map::Map(char map[MAP_ITEMS_NUMBER], char numbers[ISLANDS_AMMOUNT]) { //por si soy client, copio el mapa
-    //for (int i = DOCKS_AMMOUNT; i < MAP_ITEMS_NUMBER; i++) {
-    //    switch (map[i])
-    //    {
-    //        case WOOD:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], BOSQUE);
-    //            break;
-    //        case WHEAT:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], CAMPO);
-    //            break;
-    //        case STONE:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], MONTANIA);
-    //            break;
-    //        case CLAY:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], COLINA);
-    //            break;
-    //        case SHEEP:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], PASTO);
-    //            break;
-    //        case DESIERTO:
-    //            islands[i] = Island('A' + i - DOCKS_AMMOUNT, numbers[i], DESIERTO);
-    //            break;
-    //    }
-    //}
-
-    //for (int i = 0; i < DOCKS_AMMOUNT; i++) {
-    //    docks[i] = Dock(i, map[i]);
-    //}
-}
-
-Map::~Map()
-{
-}
+Map::~Map() = default;
 
 // PARA CUANDO ES "SERVER" Y TIENE QUE CREAR EL JUEGO
 void Map::setIslands()
@@ -207,17 +158,17 @@ char * Map::getIslandTokensArray()
 	return numbers;
 }
 
-char * Map::getDocksArray(void)
+char * Map::getDocksArray()
 {
 	return dockArray;
 }
 
 
 
-Island * Map::getIslands(void) {
+Island * Map::getIslands() {
     return islands;
 }
-Dock * Map::getDocks(void) {
+Dock * Map::getDocks() {
     return docks;
 }
 

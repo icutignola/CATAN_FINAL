@@ -4,6 +4,10 @@ class Town :
         public AbstractBuilding
 {
 public:
-    Town(Coordinates); //crea un town posicionado en coordinates
+    /** --------- Constructor --------- */
+    /** Crea un town posicionado en coordinates con identificador TOWN_L */
+    Town(const Coordinates &coordinates);
+
+    /** --------- Destructor --------- */
     ~Town();
 };

@@ -5,14 +5,14 @@
 
 using namespace std;
 
-enum errorNum { errClientConnect, errServerConnect, errClientRecived, errServerRecived, errClientSend, errServerSend, noError, errInitAllegro };
+enum errorNum { errClientConnect, errServerConnect, errClientReceived, errServerReceived, errClientSend, errServerSend, noError, errInitAllegro };
 class errorC
 {
 public:
 	void setErrorNumber(unsigned int errNumber);
 	void setErrorDescription(string errDescription);
-	unsigned int getErrorNumber(void);
-	string getErrorDescription(void);
+	unsigned int getErrorNumber();
+	string getErrorDescription();
 
 private:
 	unsigned int number;

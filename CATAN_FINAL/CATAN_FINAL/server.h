@@ -30,29 +30,29 @@ public:
 
 	server(const char *ip);
 
-	bool startConnection(void);	//El server se queda en esta funcion esperando a que alguien se conecte, si se apreta la tecla Q o alguien se conecto, se termina de ejecutar la funcion
+	bool startConnection();	//El server se queda en esta funcion esperando a que alguien se conecte, si se apreta la tecla Q o alguien se conecto, se termina de ejecutar la funcion
 
-	void sendName(void);	//Le avisa que le va a mandar el nombre
+	void sendName();	//Le avisa que le va a mandar el nombre
 
 	void sendDices(unsigned int dice1, unsigned int dice2); //Le envia el valor de los dados
 
 	void sendNameIs(unsigned char lcount, const char* name); //Le envia el nombre y la longitud
 
-	void sendAck(void);
+	void sendAck();
 
-	void sendYes(void);
+	void sendYes();
 
-	void sendNo(void);
+	void sendNo();
 
-	void sendIWon(void);
+	void sendIWon();
 
-	void sendPlayAgain(void);
+	void sendPlayAgain();
 
-	void sendGameOver(void);
+	void sendGameOver();
 
-	void sendError(void);
+	void sendError();
 
-	void sendQuit(void);
+	void sendQuit();
 
 	void sendMapIs(char arr[MAX_NUMBER_PIECES], char docks[DOCKS_AMMOUNT]); //Le envia los tipos de islas
 
@@ -68,21 +68,21 @@ public:
 
 	void sendCity(coordenates coord, unsigned int coordQuant); //Le envia donde contruyo una city y cuantas coordenadas le envia
 
-	void sendYoutStart(void);
+	void sendYoutStart();
 
-	void sendIStart(void);
+	void sendIStart();
 
 	void sendBankTrade(unsigned char offerSource, unsigned char reciveSource, unsigned char cantSources);
 
 	void sendOfferTrade(tradeIn myRes, tradeIn yourRes);
 
-	bool isMessage(void);
+	bool isMessage();
 
-	void sendPass(void);
+	void sendPass();
 
-	message cleanMessage(void);
+	message cleanMessage();
 
-	message getMessage(void); //Carga la informacion recibida por parte del otro jugador en una variable "message"
+	message getMessage(); //Carga la informacion recibida por parte del otro jugador en una variable "message"
 
 	//typedef struct
 	//{
@@ -107,9 +107,9 @@ public:
 
 	errorC errorConnection;
 	errorC errorSend;
-	errorC errorRecived;
+	errorC errorReceived;
 
-	char ipRecived[15];
+	char ipReceived[15];
 
 private:
 
@@ -120,6 +120,6 @@ private:
 	unsigned int lenInputMessage;
 
 
-	bool reciveMessage(void);
+	bool receiveMessage(void);
 	void sendMessage(void);
 };
