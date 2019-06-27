@@ -16,7 +16,7 @@ void FSMImplementation::askTrade(genericEvent * ev)
 	stone = catan->getPlayer1()->getStone();
 
 	tradeIn doy, quiero;
-	doy = GUI->getTradeInfo(wood, sheep, stone, clay, wheat, 0);//flag es 0 para ofrecer
+	doy = GUI->getTradeInfo(wood, sheep, stone, clay, wheat, 0); //flag es 0 para ofrecer
 	quiero = GUI->getTradeInfo(9, 9, 9, 9, 9, 1); //flag es 1 para pedir
 		
 	if (myStatus == IM_SERVER)
@@ -212,53 +212,44 @@ void FSMImplementation::bankTrade(genericEvent * ev)
 	tradeBank trade;
 
 	trade = GUI->getTradeBank();
+
     // tradeBank devuelve true si hizo el trade y false si no lo hizo
-    catan->tradeBank(trade.give, trade.receive, catan->getPlayer1()); //No deberia checkear si se puede hacer el trade antes?
+    bool canTrade = catan->tradeBank(trade.give, trade.receive, catan->getPlayer1());
+    if(canTrade) { //CREO QUE DEBERIA ESTAR ESTE IF
+        if (myStatus == IM_SERVER) {
+            COMU_s->sendBankTrade(trade.give, trade.receive, 4);
 
-	if (myStatus == IM_SERVER)
-	{
-		COMU_s->sendBankTrade(trade.give, trade.receive, 4);
+            while (!messageExist) {
+                messageExist = COMU_s->isMessage();
+            }
+            messageExist = false;
+            mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+            if (mensaje.identifier == YES) {
+                COMU_s->sendAck();
+                GUI->showAnswer(1);
+            } else if (mensaje.identifier == NO) {
+                COMU_s->sendAck();
+                GUI->showAnswer(0);
+            }
+        } else if (myStatus == IM_CLIENT) {
+            // Le envio el settlement
+            COMU_c->sendBankTrade(trade.give, trade.receive, 4);
 
-		while (!messageExist)
-		{
-			messageExist = COMU_s->isMessage();
-		}
-		messageExist = false;
-		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
-		if (mensaje.identifier == YES)
-		{
-			COMU_s->sendAck();
-			GUI->showAnswer(1);
-		}
-		else if (mensaje.identifier == NO)
-		{
-			COMU_s->sendAck();
-			GUI->showAnswer(0);
-		}
-	}
-	else if (myStatus == IM_CLIENT)
-	{
-		// Le envio el settlement
-		COMU_c->sendBankTrade(trade.give, trade.receive, 4);
-
-		// Espero a que me esponda que recibio los tokens
-		while (!messageExist)
-		{
-			messageExist = COMU_c->isMessage();
-		}
-		messageExist = false;
-		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
-		if (mensaje.identifier == YES)
-		{
-			COMU_c->sendAck();
-			GUI->showAnswer(1); //deberia ser ACCEPT?
-		}
-		else if (mensaje.identifier == NO)
-		{
-			COMU_c->sendAck();
-			GUI->showAnswer(0); //deberia ser NO_ACCEPT?
-		}
-	}
+            // Espero a que me responda que recibio los tokens
+            while (!messageExist) {
+                messageExist = COMU_c->isMessage();
+            }
+            messageExist = false;
+            mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+            if (mensaje.identifier == YES) {
+                COMU_c->sendAck();
+                GUI->showAnswer(1); //deberia ser ACCEPT?
+            } else if (mensaje.identifier == NO) {
+                COMU_c->sendAck();
+                GUI->showAnswer(0); //deberia ser NO_ACCEPT?
+            }
+        }
+    }
 
 	
 }
@@ -294,7 +285,7 @@ void FSMImplementation::checkBank(genericEvent * ev)
 			}
 			else
 			{
-				//generar error
+				//generar error (SERIA POR FALTA DE RECURSOS)
 			}
 
 	
@@ -327,6 +318,7 @@ void FSMImplementation::checkBank(genericEvent * ev)
 	}
 }
 
+//HECHO (FALTA PARAMETROS QUE DEBERIA RECIBIR DESDE PAQUETE)
 void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port es
 {
 	cout << "port trade" << endl;
@@ -337,10 +329,13 @@ void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port e
 	sheep = catan->getPlayer1()->getSheep();
 	wheat = catan->getPlayer1()->getWheat();
 	stone = catan->getPlayer1()->getStone();
+	tradeIn resourcesToTrade; //ACA DEBERIA ELEGIRSE POR FRONT END LOS RECURSOS QUE PLAYER QUIERE TRADEAR
+	Coordinates coordinates; // ACA DEBERIAN PASARME DESDE QUE TOWN SE TRADEA CON PUERTO
+	tradeIn requestingFromDock; // ACA DEBERIA RECIBIR QUE RECURSO QUIERE PLAYER EN CASO QUE SEA UN PUERTO DE 3X1
 
-	//Que puerto fue?**********************************************************************************
-
-	//tradeDock(resources give[], resources take, Dock dock, Player * player)
+    if(catan->checkDockTrade(catan->getPlayer1(), resourcesToTrade, coordinates)){
+        catan->tradeDock(resourcesToTrade, requestingFromDock, catan->getPlayer1());
+    }
 
 	//Checkear que pueda acceder a ese puerto?**********************************************************
 
@@ -367,7 +362,7 @@ void FSMImplementation::checkPort(genericEvent * ev)
 
 }
 
-//HECHO (CARO FIJATE EN CAN BUILD ROAD!!!!)
+//HECHO (Ojo con errores)
 void FSMImplementation::building(genericEvent * ev)
 {
 	// PUEDE SER QUE LO QUE ESTA COMENTADO ABAJO NO HACE FALTA QUE VAYA!!!!
@@ -398,7 +393,8 @@ void FSMImplementation::building(genericEvent * ev)
 	{
 		case ROAD:
 		{
-			error = catan->canBuildRoad(catan->getPlayer1(), catan->getPlayer2(), coords, true); //VERIFICAR CON CARO, CAMBIOS QUE SE HICIERON EN ESTA FUNCION POR LOS PRIMEROS DOS TURNOS
+		    //false porque en teoria esto se llama para los turnos que no son los primeros
+			error = catan->canBuildRoad(catan->getPlayer1(), catan->getPlayer2(), coords, false);
 			break;
 		}
 		case CITY:
@@ -408,12 +404,12 @@ void FSMImplementation::building(genericEvent * ev)
 		}
 		case SETTLEMENT:
 		{
-			error = catan->canBuildTown(catan->getPlayer1(), catan->getPlayer2(), coords, true);
+			error = catan->canBuildTown(catan->getPlayer1(), catan->getPlayer2(), coords, false);
 			break;
 		}
 	}
 
-	if (error)
+	if (error) //ojo que hay distintos tipos de errores
 	{
 		GUI->showNoResource();
 	}
@@ -495,7 +491,7 @@ void FSMImplementation::building(genericEvent * ev)
 
 } 
 
-//HECHO (CARO FIJATE EN CAN BUILD ROAD Y EL ORDEN DE LA INVOCACION DE LOS PLAYERS!!!!)
+//HECHO (faltan errores)
 void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del dispatcher
 {
 	cout << "el otro construyo algo" << endl;
@@ -528,7 +524,8 @@ void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del 
 	{
 		case ROAD:
 		{
-			error = !catan->canBuildRoad(catan->getPlayer2(), catan->getPlayer1(), coords, true); //VERIFICAR CON CARO, CAMBIOS QUE SE HICIERON EN ESTA FUNCION POR LOS PRIMEROS DOS TURNOS
+		    //player 2 primero porque el quiere construir, false porque es en los turnos que no son los primeros
+			error = !catan->canBuildRoad(catan->getPlayer2(), catan->getPlayer1(), coords, false);
 			break;
 		}
 		case CITY:
@@ -538,7 +535,7 @@ void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del 
 		}
 		case SETTLEMENT:
 		{
-			error = !catan->canBuildTown(catan->getPlayer2(), catan->getPlayer1(), coords, true);
+			error = !catan->canBuildTown(catan->getPlayer2(), catan->getPlayer1(), coords, false);
 			break;
 		}
 	}
@@ -706,7 +703,7 @@ void FSMImplementation::victory(genericEvent * ev)
 	}
 }
 
-//HECHO
+//HECHO (no faltaria ver si yo gane?)
 void FSMImplementation::victoryCheck(genericEvent * ev)
 {
 	cout << "gano?" << endl;
@@ -732,7 +729,7 @@ void FSMImplementation::error(genericEvent * ev)
 	cout << "La cagaron" << endl;
 }
 
-//HECHO, funcion que pasa los pumnteros
+//HECHO, funcion que pasa los punteros
 void FSMImplementation::setFSM(io * GUI_i, Catan * catan_i, client * COMUC_i, server * COMUS_i, int myStatus_i)
 {
 	GUI = GUI_i;
