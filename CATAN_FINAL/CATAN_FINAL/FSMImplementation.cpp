@@ -726,7 +726,7 @@ void FSMImplementation::victoryCheck(genericEvent * ev)
 
 void FSMImplementation::error(genericEvent * ev)
 {
-	cout << "La cagaron" << endl;
+	cout << "error" << endl;
 }
 
 //HECHO, funcion que pasa los punteros
