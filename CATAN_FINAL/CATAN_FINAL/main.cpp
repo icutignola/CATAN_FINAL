@@ -16,14 +16,14 @@
 
 int main(int argc, char** argv)
 {
-	//Variable de FSM
-	bool isClick = false;
-	bool isMessage = false;
-	FSMImplementation fsm;
-	simpleEventGenerator s;
-	mainEventGenerator eventGen;
-	genericEvent * ev;
-	eventGen.attach(&s);
+	////Variable de FSM
+	//bool isClick = false;
+	//bool isMessage = false;
+	//FSMImplementation fsm;
+	//simpleEventGenerator s;
+	//mainEventGenerator eventGen;
+	//genericEvent * ev;
+	//eventGen.attach(&s);
 
 	// Variable de salida para finalizar el juego
 	bool quit = false;
@@ -881,45 +881,45 @@ int main(int argc, char** argv)
 
 	//***************  FSM  ***********************
 
-	fsm.setFSM(&GUI, &catan, &COMU_c, &COMU_s, myStatus); //VERIFICAR SI LOS PUNTEROS SE PASAN BIEN
+	//fsm.setFSM(&GUI, &catan, &COMU_c, &COMU_s, myStatus); //VERIFICAR SI LOS PUNTEROS SE PASAN BIEN
 
-	do
-	{
-		// Pregunto si hay un CLICK
-		isClick = GUI.isInput();
-		if (isClick == CLICK_T)
-		{
-			//Genera evento de click
-			isClick = CLICK_F;
-		}
-		
-		// Pregunto si hay mensaje
-		if (myStatus == IM_SERVER) 
-		{
-			isMessage = messageExist = COMU_s.isMessage();
-		}
-		else if (myStatus == IM_CLIENT)
-		{
-			isMessage = messageExist = COMU_c.isMessage();
-		}
+	//do
+	//{
+	//	// Pregunto si hay un CLICK
+	//	isClick = GUI.isInput();
+	//	if (isClick == CLICK_T)
+	//	{
+	//		//Genera evento de click
+	//		isClick = CLICK_F;
+	//	}
+	//	
+	//	// Pregunto si hay mensaje
+	//	if (myStatus == IM_SERVER) 
+	//	{
+	//		isMessage = messageExist = COMU_s.isMessage();
+	//	}
+	//	else if (myStatus == IM_CLIENT)
+	//	{
+	//		isMessage = messageExist = COMU_c.isMessage();
+	//	}
 
-		if (isMessage == MESSAGE_T)
-		{
-			//Genera evento de mensaje
-			isMessage = MESSAGE_F;
-		}
-	
-		ev = eventGen.getNextEvent();
-		if (ev->getType() == EventQuit)
-		{
-			quit = true;
-			delete ev;
-		}
-		else
-		{
-			fsm.cycle(ev);
-		}
-	} while (!quit);
+	//	if (isMessage == MESSAGE_T)
+	//	{
+	//		//Genera evento de mensaje
+	//		isMessage = MESSAGE_F;
+	//	}
+	//
+	//	ev = eventGen.getNextEvent();
+	//	if (ev->getType() == EventQuit)
+	//	{
+	//		quit = true;
+	//		delete ev;
+	//	}
+	//	else
+	//	{
+	//		fsm.cycle(ev);
+	//	}
+	//} while (!quit);
 
 	system("pause");
 	return 0;

@@ -22,7 +22,7 @@
 #include "errorC.h"
 
 #define WSAEWOULDBLOCK EWOULDBLOCK
-#define ERROR ERROR_T
+//#define ERROR ERROR_T
 
 using namespace std;
 
