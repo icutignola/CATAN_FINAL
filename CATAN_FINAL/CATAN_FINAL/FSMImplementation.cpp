@@ -323,31 +323,31 @@ void FSMImplementation::portTrade(genericEvent * ev)// necesito saber que port e
 {
 	cout << "port trade" << endl;
 
-	int wood, clay, sheep, wheat, stone;
-	wood = catan->getPlayer1()->getWood();
-	clay = catan->getPlayer1()->getClay();
-	sheep = catan->getPlayer1()->getSheep();
-	wheat = catan->getPlayer1()->getWheat();
-	stone = catan->getPlayer1()->getStone();
-	tradeIn resourcesToTrade; //ACA DEBERIA ELEGIRSE POR FRONT END LOS RECURSOS QUE PLAYER QUIERE TRADEAR
-	Coordinates coordinates; // ACA DEBERIAN PASARME DESDE QUE TOWN SE TRADEA CON PUERTO
-	tradeIn requestingFromDock; // ACA DEBERIA RECIBIR QUE RECURSO QUIERE PLAYER EN CASO QUE SEA UN PUERTO DE 3X1
+	//int wood, clay, sheep, wheat, stone;
+	//wood = catan->getPlayer1()->getWood();
+	//clay = catan->getPlayer1()->getClay();
+	//sheep = catan->getPlayer1()->getSheep();
+	//wheat = catan->getPlayer1()->getWheat();
+	//stone = catan->getPlayer1()->getStone();
+	//tradeIn resourcesToTrade; //ACA DEBERIA ELEGIRSE POR FRONT END LOS RECURSOS QUE PLAYER QUIERE TRADEAR
+	//Coordinates coordinates; // ACA DEBERIAN PASARME DESDE QUE TOWN SE TRADEA CON PUERTO
+	//tradeIn requestingFromDock; // ACA DEBERIA RECIBIR QUE RECURSO QUIERE PLAYER EN CASO QUE SEA UN PUERTO DE 3X1
 
-    if(catan->checkDockTrade(catan->getPlayer1(), resourcesToTrade, coordinates)){
-        catan->tradeDock(resourcesToTrade, requestingFromDock, catan->getPlayer1());
-    }
+ //   if(catan->checkDockTrade(catan->getPlayer1(), resourcesToTrade, coordinates)){
+ //       catan->tradeDock(resourcesToTrade, requestingFromDock, catan->getPlayer1());
+ //   }
 
-	//Checkear que pueda acceder a ese puerto?**********************************************************
+	////Checkear que pueda acceder a ese puerto?**********************************************************
 
-	/*if (positivo)
-	{
-	//sendPortTrade() // de server.h o client.h ????????????????????????????????????????????????????????
-	//show enough?
-	}
-	else
-	{
-	void showDontEnough(void) //avisa que no podes tradear
-	}*/
+	///*if (positivo)
+	//{
+	////sendPortTrade() // de server.h o client.h ????????????????????????????????????????????????????????
+	////show enough?
+	//}
+	//else
+	//{
+	//void showDontEnough(void) //avisa que no podes tradear
+	//}*/
 }
 
 void FSMImplementation::checkPort(genericEvent * ev)

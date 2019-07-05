@@ -108,6 +108,9 @@
     <ClCompile Include="Port.cpp">
       <Filter>Archivos de origen\LOGICA</Filter>
     </ClCompile>
+    <ClCompile Include="eventGen.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="io.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Port.h">
       <Filter>Archivos de encabezado\LOGICA</Filter>
+    </ClInclude>
+    <ClInclude Include="eventGen.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

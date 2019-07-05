@@ -3,87 +3,61 @@
 
 #include "eventHandling.h"
 
-//enum implEvent : eventTypes { EventA, EventB, EventC, EventD, EventQuit };
+//enum implEvent : eventTypes { Trade, PortTrade, BankTrade, Build, MaxScore, Invalid, EndOfTurn, DiceThrew, EventQuit };
 //
-//class cEventA : public genericEvent
+//class cTrade : public genericEvent
 //{
 //public:
-//	eventTypes getType(void) { return EventA; }
+//	eventTypes getType() override { return Trade; }
 //};
 //
-//class cEventB : public genericEvent
+//class cPortTrade : public genericEvent
 //{
 //public:
-//	eventTypes getType(void) { return EventB; }
+//	eventTypes getType() override { return PortTrade; }
 //};
 //
-//class cEventC : public genericEvent
+//class cBankTrade : public genericEvent
 //{
 //public:
-//	eventTypes getType(void) { return EventC; }
+//	eventTypes getType() override { return BankTrade; }
 //};
 //
-//class cEventD : public genericEvent
+//class cBuild: public genericEvent
 //{
 //public:
-//	eventTypes getType(void) { return EventD; }
+//	eventTypes getType() override { return Build; }
 //};
-
-enum implEvent : eventTypes { Trade, PortTrade, BankTrade, Build, MaxScore, Invalid, EndOfTurn, DiceThrew, EventQuit };
-
-class cTrade : public genericEvent
-{
-public:
-	eventTypes getType() override { return Trade; }
-};
-
-class cPortTrade : public genericEvent
-{
-public:
-	eventTypes getType() override { return PortTrade; }
-};
-
-class cBankTrade : public genericEvent
-{
-public:
-	eventTypes getType() override { return BankTrade; }
-};
-
-class cBuild: public genericEvent
-{
-public:
-	eventTypes getType() override { return Build; }
-};
-
-class cMaxScore : public genericEvent
-{
-public:
-	eventTypes getType() override { return MaxScore; }
-};
-
-class cInvalid : public genericEvent
-{
-public:
-	eventTypes getType() override { return Invalid; }
-};
-
-class cEndOfTurn : public genericEvent
-{
-public:
-	eventTypes getType() override { return EndOfTurn; }
-};
-
-class cDiceThrew : public genericEvent
-{
-public:
-	eventTypes getType() override { return DiceThrew; }
-};
-
-class cEventQuit : public genericEvent
-{
-public:
-	eventTypes getType() override { return EventQuit; }
-};
+//
+//class cMaxScore : public genericEvent
+//{
+//public:
+//	eventTypes getType() override { return MaxScore; }
+//};
+//
+//class cInvalid : public genericEvent
+//{
+//public:
+//	eventTypes getType() override { return Invalid; }
+//};
+//
+//class cEndOfTurn : public genericEvent
+//{
+//public:
+//	eventTypes getType() override { return EndOfTurn; }
+//};
+//
+//class cDiceThrew : public genericEvent
+//{
+//public:
+//	eventTypes getType() override { return DiceThrew; }
+//};
+//
+//class cEventQuit : public genericEvent
+//{
+//public:
+//	eventTypes getType() override { return EventQuit; }
+//};
 
 class simpleEventGenerator : public eventGenerator
 {
