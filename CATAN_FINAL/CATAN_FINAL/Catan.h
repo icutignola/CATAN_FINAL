@@ -8,7 +8,7 @@
 class Catan
 {
 public:
-    /** --------- Constructores --------- */
+	/** --------- Constructores --------- */
 	//Catan(Player *, Player*, char[MAP_ITEMS_NUMBER], char[ISLANDS_AMMOUNT]);
 
 	/** Crea el objeto Catan con los punteros a los jugadores. */
@@ -19,7 +19,7 @@ public:
 	//~Catan();
 
 
-    /** --------- Getters --------- */
+	/** --------- Getters --------- */
 	Robber * getRobber();
 	Player * getPlayer1();
 	Player * getPlayer2();

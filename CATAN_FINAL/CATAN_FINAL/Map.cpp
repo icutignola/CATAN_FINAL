@@ -20,30 +20,43 @@ Map::Map()
 	colinaQty = montaniaQty = 3;
 	//NOTA: Todas las variables anteriores, deben sumar ISLANDS_AMMOUNT
 	int i = 0;
-	while(i< desiertoQty){
-	    islandsTypeArray[i] = DESIERTO;
-	    i++;
+	int j = 0;
+	while (j < desiertoQty) {
+		islandsTypeArray[i] = DESIERTO;
+		i++;
+		j++;
 	}
-    while(i< bosqueQty){
+	j = 0;
+    while(j< bosqueQty){
         islandsTypeArray[i] = BOSQUE;
         i++;
+		j++;
     }
-    while(i< pastoQty){
+	j = 0;
+    while(j< pastoQty){
         islandsTypeArray[i] = PASTO;
         i++;
+		j++;
     }
-    while(i< campoQty){
+	j = 0;
+    while(j< campoQty){
         islandsTypeArray[i] = CAMPO;
         i++;
+		j++;
     }
-    while(i< colinaQty){
+	j = 0;
+    while(j< colinaQty){
         islandsTypeArray[i] = COLINA;
         i++;
+		j++;
     }
-    while(i< montaniaQty){
+	j = 0;
+    while(j< montaniaQty){
         islandsTypeArray[i] = MONTANIA;
         i++;
+		j++;
     }
+	j = 0;
 
 	//DOCKS: N T O L P M
 	dockArray[0] = 'N';
@@ -89,6 +102,8 @@ void Map::setIslands()
             j++;
         }
     }
+
+
 }
 void Map::setDocks()
 {
