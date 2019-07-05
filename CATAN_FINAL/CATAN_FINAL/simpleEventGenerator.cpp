@@ -32,7 +32,7 @@ genericEvent * simpleEventGenerator::
 
 getEvent(void)
 {
-	genericEvent * ret = nullptr;
+	/*genericEvent * ret = nullptr;
 	switch (testEvs[pos])
 	{
 	case Trade:
@@ -65,4 +65,4 @@ getEvent(void)
 	}
 	pos++;
 	return ret;
-}
+}*/
