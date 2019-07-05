@@ -597,7 +597,6 @@ void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del 
 void FSMImplementation::endOfMyTurn(genericEvent * ev)
 {
 	cout << "termine mi turno" << endl;
-	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), false, GENERAL_MENU);
 	if (myStatus == IM_SERVER)
 	{
 		COMU_s->sendPass();
@@ -607,17 +606,29 @@ void FSMImplementation::endOfMyTurn(genericEvent * ev)
 		}
 		messageExist = false;
 		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			ackReceived = true;
+		}
 	}
 	else if (myStatus == IM_CLIENT)
 	{
 		COMU_c->sendPass();
-		// Espero a que me esponda que recibio los tokens
 		while (!messageExist)
 		{
 			messageExist = COMU_c->isMessage();
 		}
 		messageExist = false;
 		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == ACK)
+		{
+			ackReceived = true;
+		}
+	}
+
+	if (ackReceived == true)
+	{
+		GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), true, GENERAL_MENU);
 	}
 }
 
@@ -629,6 +640,38 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 	// si fue un siete pregunta al jugador a donde mover el robber? (showMoveRobber)
 
 	//void findNumber(dado, catan.getPlayer1(), resources resources[], Coordinates coordinates); //  encuentra todas las islas que tienen el numero tirado por el dado y si el numero era un 7 se encarga de llamar a la funcion que mueve al robber
+	if (myStatus == IM_SERVER)
+	{
+		while (!messageExist)
+		{
+			messageExist = COMU_s->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_s->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == PASS)
+		{
+			COMU_s->sendAck();
+		}
+	}
+	else if (myStatus == IM_CLIENT)
+	{
+		while (!messageExist)
+		{
+			messageExist = COMU_c->isMessage();
+		}
+		messageExist = false;
+		mensaje = COMU_c->getMessage(); //Obtengo el mensaje
+		if (mensaje.identifier == PASS)
+		{
+			COMU_c->sendAck();
+		}
+	}
+
+
+
+
+
+
 }
 
 //HECHO
