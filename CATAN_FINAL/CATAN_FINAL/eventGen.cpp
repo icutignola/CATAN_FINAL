@@ -10,9 +10,9 @@ genericEvent *eventGen::
 getEvent()
 {
 	genericEvent * reEV = nullptr;
-	
-	if (GUI->isInput() == EV_EXIST)
-	{
+	while (GUI->isInput() != EV_EXIST);
+	/*if (GUI->isInput() == EV_EXIST)
+	{*/
 		input = GUI->getInput();
 		switch (input)
 		{
@@ -44,7 +44,7 @@ getEvent()
 			reEV = new cEventQuit;
 			break;
 		}
-	}
+	/*}*/
 	return reEV;
 }
 

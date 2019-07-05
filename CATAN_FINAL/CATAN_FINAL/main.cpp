@@ -13,6 +13,7 @@
 #include "genericFSM.h"
 #include "simpleEventGenerator.h"
 #include "FSMImplementation.h"
+#include "eventGen.h"
 
 int main(int argc, char** argv)
 {
@@ -885,7 +886,7 @@ int main(int argc, char** argv)
 	bool isClick = false;
 	bool isMessage = false;
 	FSMImplementation fsm(inicial);
-	simpleEventGenerator s;
+	eventGen s;
 	mainEventGenerator eventGen;
 	genericEvent * ev;
 	eventGen.attach(&s);
@@ -895,30 +896,28 @@ int main(int argc, char** argv)
 
 	do
 	{
-		// Pregunto si hay un CLICK
-		isClick = GUI.isInput();
-		if (isClick == CLICK_T)
-		{
-			//Genera evento de click
-			isClick = CLICK_F;
-		}
-		
-		// Pregunto si hay mensaje
-		if (myStatus == IM_SERVER) 
-		{
-			isMessage = messageExist = COMU_s.isMessage();
-		}
-		else if (myStatus == IM_CLIENT)
-		{
-			isMessage = messageExist = COMU_c.isMessage();
-		}
-
-		if (isMessage == MESSAGE_T)
-		{
-			//Genera evento de mensaje
-			isMessage = MESSAGE_F;
-		}
-	
+		//// Pregunto si hay un CLICK
+		//isClick = GUI.isInput();
+		//if (isClick == CLICK_T)
+		//{
+		//	//Genera evento de click
+		//	isClick = CLICK_F;
+		//}
+		//
+		//// Pregunto si hay mensaje
+		//if (myStatus == IM_SERVER) 
+		//{
+		//	isMessage = messageExist = COMU_s.isMessage();
+		//}
+		//else if (myStatus == IM_CLIENT)
+		//{
+		//	isMessage = messageExist = COMU_c.isMessage();
+		//}
+		//if (isMessage == MESSAGE_T)
+		//{
+		//	//Genera evento de mensaje
+		//	isMessage = MESSAGE_F;
+		//}
 		ev = eventGen.getNextEvent();
 		if (ev->getType() == EventQuit)
 		{

@@ -37,6 +37,7 @@
 #define I_WON			0x50
 #define PLAY_AGAIN		0x51
 #define GAME_OVER		0x52
+#define PORT_TRADE		0x53
 #define ERROR_T			0xFE
 #define QUIT			0xFF
 #define WOOD			'M'
