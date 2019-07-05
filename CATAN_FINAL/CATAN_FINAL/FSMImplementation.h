@@ -55,7 +55,7 @@ private:
 	void error(genericEvent * ev);
 
 public:
-	FSMImplementation() : genericFSM(&fsmTable3[0][0], 8, 3, inMyTurn) {}
+	FSMImplementation(implStates estadoInicial) : genericFSM(&fsmTable3[0][0], 8, 3, estadoInicial) {}
 	
 	void setFSM(io* GUI_i, Catan* catan_i, client* COMUC_i, server* COMUS_i, int myStatus_i);
 };

@@ -16,14 +16,7 @@
 
 int main(int argc, char** argv)
 {
-	////Variable de FSM
-	//bool isClick = false;
-	//bool isMessage = false;
-	//FSMImplementation fsm;
-	//simpleEventGenerator s;
-	//mainEventGenerator eventGen;
-	//genericEvent * ev;
-	//eventGen.attach(&s);
+	
 
 	// Variable de salida para finalizar el juego
 	bool quit = false;
@@ -880,6 +873,25 @@ int main(int argc, char** argv)
 	//*************************************************************************************
 
 	//***************  FSM  ***********************
+	//implStates inicial;
+	//if (turn==MY_TURN_M)
+	//{
+	//	inicial = inMyTurn;
+	//}
+	//else if(turn==YOUR_TURN_M)
+	//{
+	//	inicial = waitTurn;
+	//}
+	//
+	////Variable de FSM
+	//bool isClick = false;
+	//bool isMessage = false;
+	//FSMImplementation fsm(inicial);
+	//simpleEventGenerator s;
+	//mainEventGenerator eventGen;
+	//genericEvent * ev;
+	//eventGen.attach(&s);
+	//
 
 	//fsm.setFSM(&GUI, &catan, &COMU_c, &COMU_s, myStatus); //VERIFICAR SI LOS PUNTEROS SE PASAN BIEN
 
@@ -921,7 +933,7 @@ int main(int argc, char** argv)
 	//	}
 	//} while (!quit);
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
 
