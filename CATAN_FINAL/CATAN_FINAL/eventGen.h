@@ -77,5 +77,6 @@ private:
 public:
 	eventGen();
 	genericEvent * getEvent();
+	void seteventGen(io * GUI_i, client * COMUC_i, server * COMUS_i, int myStatus_i);
 	~eventGen();
 };
