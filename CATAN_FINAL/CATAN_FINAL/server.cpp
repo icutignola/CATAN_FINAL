@@ -25,7 +25,7 @@ bool server::startConnection()
 	do
 	{
 		server_acceptor->accept(*socketServer, errConnect);	//Si alguien se conecto lo cargo en socket
-		if (_kbhit())
+		if (kbhit())
 		{
 			if (getchar() == 'q')
 			{
