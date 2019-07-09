@@ -111,6 +111,9 @@
     <ClCompile Include="eventGen.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="comuGen.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="io.h">
@@ -192,6 +195,12 @@
       <Filter>Archivos de encabezado\LOGICA</Filter>
     </ClInclude>
     <ClInclude Include="eventGen.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="comuGen.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="evtypes.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

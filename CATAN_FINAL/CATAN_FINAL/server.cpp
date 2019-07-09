@@ -1,4 +1,5 @@
 #include "server.h"
+
 using namespace std;
 
 //******************************  Constructor server  ******************************************
@@ -24,7 +25,7 @@ bool server::startConnection()
 	do
 	{
 		server_acceptor->accept(*socketServer, errConnect);	//Si alguien se conecto lo cargo en socket
-		if (kbhit())
+		if (_kbhit())
 		{
 			if (getchar() == 'q')
 			{

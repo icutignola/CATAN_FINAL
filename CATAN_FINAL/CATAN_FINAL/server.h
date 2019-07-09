@@ -20,6 +20,9 @@
 #include "auxiliar.h"
 #include "errorC.h"
 
+
+//#pragma warning(disable : 4996)
+
 #define WSAEWOULDBLOCK EWOULDBLOCK
 #define ERROR ERROR_T
 
