@@ -31,12 +31,12 @@
 #define KNIGHT			0x34
 //******************************
 #define BUILD			0x35
-#define NO_VALUE		0x36
 #define YES				0x40
 #define NO				0x41
 #define I_WON			0x50
 #define PLAY_AGAIN		0x51
 #define GAME_OVER		0x52
+#define PORT_TRADE		0x53
 #define ERROR_T			0xFE
 #define QUIT			0xFF
 #define WOOD			'M'
@@ -351,6 +351,7 @@
 #define MAP_ITEMS_NUMBER (ISLANDS_AMMOUNT + DOCKS_AMMOUNT)
 #define LONGEST_ROAD_MIN 5 //cantidad minima de roads para ganar longestRoad
 #define EMPTY '6'
+#define NO_VALUE EMPTY
 #define VERTEX_AMMOUNT 54 //cantidad de vertices en el mapa
 #define SINGLE_PORT_VERTEX_AMMOUNT 12
 #define DOUBLE_PORT_VERTEX_AMMOUNT 24

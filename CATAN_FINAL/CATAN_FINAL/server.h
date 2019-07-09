@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <conio.h>
 #include <boost/asio.hpp>
 #include <boost/chrono.hpp>
 #include <boost/function.hpp>

@@ -3773,9 +3773,9 @@ void io::showGeneralDisplay(Player* P1, Player* P2, Map* MapIs, bool Turn, unsig
 	buffer_aux[0] = stoneCant;
 	al_draw_text(fuente, colorFont, FONT_STONE_X, FONT_STONE_Y, ALLEGRO_ALIGN_RIGHT, buffer_aux);
 
-	int cityCant = P1->getCitiesBuilt();
-	int roadCant = P1->getRoadsBuilt();
-	int townCant = P1->getTownsBuilt();
+	int cityCant = (MAX_CITIES - P1->getCitiesBuilt());
+	int roadCant = (MAX_ROAD_AMMOUNT - P1->getRoadsBuilt());
+	int townCant = (MAX_TOWNS - P1->getTownsBuilt());
 
 	colorFont = al_map_rgb(255, 255, 255);
 

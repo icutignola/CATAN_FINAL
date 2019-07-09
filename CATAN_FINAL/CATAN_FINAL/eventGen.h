@@ -62,7 +62,7 @@ public:
 	eventTypes getType() { return EventQuit; }
 };
 
-class eventGen
+class eventGen : public eventGenerator
 {
 private:
 	io* GUI;
