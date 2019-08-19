@@ -10,9 +10,8 @@ genericEvent *eventGen::
 getEvent()
 {
 	genericEvent * reEV = nullptr;
-	while (GUI->isInput() != EV_EXIST);
-	/*if (GUI->isInput() == EV_EXIST)
-	{*/
+	if (GUI->isInput() == EV_EXIST)
+	{
 		input = GUI->getInput();
 		switch (input)
 		{
@@ -44,10 +43,18 @@ getEvent()
 			reEV = new cEventQuit;
 			break;
 		}
-	/*}*/
+	}
+
 	return reEV;
 }
 
+void eventGen::seteventGen(io * GUI_i, client * COMUC_i, server * COMUS_i, int myStatus_i)
+{
+	GUI = GUI_i;
+	COMU_c = COMUC_i;
+	COMU_s = COMUS_i;
+	myStatus = myStatus_i;
+}
 
 eventGen::~eventGen()
 {

@@ -1,4 +1,5 @@
 #include "server.h"
+
 using namespace std;
 
 //******************************  Constructor server  ******************************************
@@ -18,13 +19,21 @@ bool server::startConnection()
 	bool answer = CONNECTION_SUCCESS;
 	//server_acceptor->non_blocking(true);
 	boost::system::error_code errConnect;
-
+	
+	bool exit = false;
 	//El server se queda "observando" si alguien se conecto
 	do
 	{
 		server_acceptor->accept(*socketServer, errConnect);	//Si alguien se conecto lo cargo en socket
+		if (kbhit())
+		{
+			if (getchar() == 'q')
+			{
+				exit = true;
+			}
+		}
+	} while ((errConnect.value() == WSAEWOULDBLOCK) || exit == false);
 
-	} while ((errConnect.value() == WSAEWOULDBLOCK));
 	if (errConnect)
 	{
 		errorConnection.setErrorNumber(errServerConnect);
@@ -527,7 +536,7 @@ message server::getMessage(void)
 			{
 				answer.x = inputMessage[2];
 				answer.y = inputMessage[3];
-				answer.z = NO_VALUE;
+				answer.z = EMPTY;
 			}
 			else if (coordQuant == 3)
 			{
@@ -541,8 +550,8 @@ message server::getMessage(void)
 		case ROBBER_MOVE:
 		{
 			answer.x = inputMessage[1];
-			answer.y = NO_VALUE;
-			answer.z = NO_VALUE;
+			answer.y = EMPTY;
+			answer.z = EMPTY;
 			break;
 		}
 
@@ -594,7 +603,7 @@ message server::getMessage(void)
 		{
 			answer.x = inputMessage[1];
 			answer.y = inputMessage[2];
-			answer.z = NO_VALUE;
+			answer.z = EMPTY;
 			break;
 		}
 

@@ -14,6 +14,8 @@
 #include "simpleEventGenerator.h"
 #include "FSMImplementation.h"
 #include "eventGen.h"
+#include "comuGen.h"
+
 
 int main(int argc, char** argv)
 {
@@ -841,7 +843,8 @@ int main(int argc, char** argv)
                 messageExist = false;
                 mensaje = COMU_s.getMessage(); //Obtengo el mensaje
                 COMU_s.sendAck();
-            } else if (myStatus == IM_CLIENT) {
+            }
+			else if (myStatus == IM_CLIENT) {
                 while (!messageExist) {
                     messageExist = COMU_c.isMessage();
                 }
@@ -887,13 +890,16 @@ int main(int argc, char** argv)
 	bool isMessage = false;
 	FSMImplementation fsm(inicial);
 	eventGen s;
+	comuGen c;
 	mainEventGenerator eventGen;
 	genericEvent * ev;
 	eventGen.attach(&s);
+	eventGen.attach(&c);
 	
 
 	fsm.setFSM(&GUI, &catan, &COMU_c, &COMU_s, myStatus); //VERIFICAR SI LOS PUNTEROS SE PASAN BIEN
-
+	s.seteventGen(&GUI, &COMU_c, &COMU_s, myStatus);
+	c.setComuGen(&GUI, &COMU_c, &COMU_s, myStatus);
 	do
 	{
 		//// Pregunto si hay un CLICK
@@ -930,7 +936,7 @@ int main(int argc, char** argv)
 		}
 	} while (!quit);
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
 

@@ -2,7 +2,7 @@
 
 #include "evtypes.h"
 
-class eventGen : public eventGenerator
+class comuGen : public eventGenerator
 {
 private:
 	io* GUI;
@@ -15,8 +15,9 @@ private:
 	unsigned char input;
 
 public:
-	eventGen();
+	comuGen();
 	genericEvent * getEvent();
-	void seteventGen(io * GUI_i, client * COMUC_i, server * COMUS_i, int myStatus_i);
-	~eventGen();
+	void setComuGen(io * GUI_i, client * COMUC_i, server * COMUS_i, int myStatus_i);
+	~comuGen();
 };
+

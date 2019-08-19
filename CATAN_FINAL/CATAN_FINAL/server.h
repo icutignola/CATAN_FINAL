@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <conio.h>
 #include <boost/asio.hpp>
 #include <boost/chrono.hpp>
 #include <boost/function.hpp>
@@ -18,6 +19,10 @@
 #include "defines.h"
 #include "auxiliar.h"
 #include "errorC.h"
+#pragma warning(disable : 4996)
+
+
+
 
 #define WSAEWOULDBLOCK EWOULDBLOCK
 #define ERROR ERROR_T

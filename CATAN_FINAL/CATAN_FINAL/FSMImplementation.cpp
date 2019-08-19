@@ -5,7 +5,7 @@ void FSMImplementation::noAction(genericEvent * ev)
 	cout << "no puedo recibir eso master" << endl;
 }
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::askTrade(genericEvent * ev)
 {
 	int wood, clay, sheep, wheat, stone;
@@ -68,7 +68,7 @@ void FSMImplementation::askTrade(genericEvent * ev)
 
 }
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::answering(genericEvent * ev)// al final con los informes hay algo que no entendi
 {
 
@@ -206,7 +206,7 @@ void FSMImplementation::answering(genericEvent * ev)// al final con los informes
 	}
 }
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::bankTrade(genericEvent * ev)
 {
 	tradeBank trade;
@@ -362,7 +362,7 @@ void FSMImplementation::checkPort(genericEvent * ev)
 
 }
 
-//HECHO (Ojo con errores)
+//HECHO (Ojo con errores) Y PROBADO
 void FSMImplementation::building(genericEvent * ev)
 {
 	// PUEDE SER QUE LO QUE ESTA COMENTADO ABAJO NO HACE FALTA QUE VAYA!!!!
@@ -491,7 +491,7 @@ void FSMImplementation::building(genericEvent * ev)
 
 } 
 
-//HECHO (faltan errores)
+//HECHO (faltan errores) Y PROBADO
 void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del dispatcher
 {
 	cout << "el otro construyo algo" << endl;
@@ -593,7 +593,7 @@ void FSMImplementation::verifyBuild(genericEvent * ev)// no se que onda eso del 
 	GUI->showGeneralDisplay(catan->getPlayer1(), catan->getPlayer2(), catan->getMap(), false, GENERAL_MENU);
 }
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::endOfMyTurn(genericEvent * ev)
 {
 	cout << "termine mi turno" << endl;
@@ -632,6 +632,7 @@ void FSMImplementation::endOfMyTurn(genericEvent * ev)
 	}
 }
 
+//HECHO Y PROBADO
 void FSMImplementation::endOtherTurn(genericEvent * ev)
 {
 	cout << "Termino el turno del otro" << endl;
@@ -674,7 +675,7 @@ void FSMImplementation::endOtherTurn(genericEvent * ev)
 
 }
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::dice(genericEvent * ev)
 {
 	int dado1;
@@ -711,7 +712,7 @@ void FSMImplementation::dice(genericEvent * ev)
 	}
 } // player 1 tira dados
 
-//HECHO
+//HECHO Y PROBADO
 void FSMImplementation::victory(genericEvent * ev)
 {
 	cout << "gane" << endl;
@@ -746,7 +747,7 @@ void FSMImplementation::victory(genericEvent * ev)
 	}
 }
 
-//HECHO (no faltaria ver si yo gane?)
+//HECHO (no faltaria ver si yo gane?) Y PROBADO
 void FSMImplementation::victoryCheck(genericEvent * ev)
 {
 	cout << "gano?" << endl;
