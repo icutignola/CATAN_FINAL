@@ -946,6 +946,12 @@ unsigned char io::getInput(void)
 						answer = BUILD;
 						break;
 					}
+
+					//case PORT_A:
+					//{
+					//	answer = PORT_TRADE;
+					//	break;
+					//}
 				}
 			}
 
