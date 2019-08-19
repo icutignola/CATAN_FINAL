@@ -13,7 +13,7 @@ getEvent()
 	if (myStatus == IM_SERVER)
 	{
 		n = 0;
-		while (!messageExist || n < 5) //Que intente 5 veces, por las dudas
+		while ((messageExist == false) && (n < 5)) //Que intente 5 veces, por las dudas
 		{
 			messageExist = COMU_s->isMessage();
 			n++;

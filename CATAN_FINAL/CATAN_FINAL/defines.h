@@ -51,11 +51,13 @@
 
 //*******************  Communication  ************************
 
-#define HELLO_PORT_STR	"13225"
-#define HELLO_PORT		13225
+//ONLINE
+//#define HELLO_PORT_STR	"13225"
+//#define HELLO_PORT		13225
 
-//#define HELLO_PORT_STR	"50013"
-//#define HELLO_PORT		50013
+//LOCAL
+#define HELLO_PORT_STR	"50013"
+#define HELLO_PORT		50013
 
 #define MAX_NUMBER_TIME	5000
 #define MIN_NUMBER_TIME	2000	
